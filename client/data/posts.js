@@ -1,171 +1,192 @@
 const posts = [
    {
-      "code":"BAcyDyQwcXX",
-      "caption":"Lunch #hamont",
-      "likes":56,
-      "id":"1161022966406956503",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xap1/t51.2885-15/e35/12552326_495932673919321_1443393332_n.jpg"
+      "code":"132e03d7",
+      "caption":"NUS School of Computing",
+      "likes":5,
+      "id":"d1ae2135",
+      "display_src":"http://oi66.tinypic.com/14136uw.jpg"
    },
    {
-      "code":"BAcJeJrQca9",
-      "caption":"Snow! ⛄️🌨❄️ #lifewithsnickers",
-      "likes":59,
-      "id":"1160844458347054781",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/e35/12407344_1283694208323785_735653395_n.jpg"
+      "code":"1b34048c",
+      "caption":"NUS Faculty of Engineering",
+      "likes":4.5,
+      "id":"0e7693ae",
+      "display_src":"http://i63.tinypic.com/34zlva1.jpg"
    },
    {
-      "code":"BAF_KY4wcRY",
-      "caption":"Cleaned my office and mounted my recording gear overhead. Stoked for 2016!",
-      "likes":79,
-      "id":"1154606670337393752",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xpf1/t51.2885-15/e35/923995_1704188643150533_1383710275_n.jpg"
+      "code":"0b9402db",
+      "caption":"NUS Faculty of Science",
+      "likes":4.5,
+      "id":"671731a8",
+      "display_src":"http://i67.tinypic.com/b85rva.jpg"
    },
    {
-      "code":"BAPIPRjQce9",
-      "caption":"Making baby pancakes for one early rising baby. ☕️🍴",
-      "likes":47,
-      "id":"1157179863266871229",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xap1/t51.2885-15/e35/12407480_1654828594805097_152207166_n.jpg"
+      "code":"0f4a036d",
+      "caption":"NUS Business School",
+      "likes":5,
+      "id":"08d36e38",
+      "display_src":"http://oi67.tinypic.com/2cz6lia.jpg"
    },
    {
-      "code":"-hZh6IQcfN",
-      "caption":"New Stickers just came in. I'll do another mailing in a few weeks if you want some. #javascript",
-      "likes":66,
-      "id":"1126293663140399053",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xap1/t51.2885-15/e35/11875511_1562439187344831_813588280_n.jpg"
+      "code":"0ea0033f",
+      "caption":"NUS School of Medicine",
+      "likes":5,
+      "id":"58362a8d",
+      "display_src":"http://oi65.tinypic.com/mk7m6h.jpg"
    },
    {
-      "code":"-B3eiIwcYV",
-      "caption":"Tacos for breakfast. I love you Austin. 🇺🇸",
-      "likes":33,
-      "id":"1117418173361145365",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/e35/11917950_927755223968499_1198055371_n.jpg"
+      "code":"027e0148",
+      "caption":"NUS Faculty of Art and Social Science",
+      "likes":4.5,
+      "id":"fc35d654",
+      "display_src":"http://oi68.tinypic.com/sl5rux.jpg"
    },
    {
-      "code":"BAhvZrRwcfu",
-      "caption":"Tried poke for the first time at @pokehbar. Delicious! It's like a bowl of sushi",
-      "likes":30,
-      "id":"1162418651480049646",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xpa1/t51.2885-15/e35/12501993_1504179163220771_2060674913_n.jpg"
+      "code":"02800145",
+      "caption":"NUS Faculty of Law",
+      "likes":5,
+      "id":"0c0b552f",
+      "display_src":"http://oi63.tinypic.com/2z9k75d.jpg"
    },
    {
-      "code":"BAAJqbOQcW5",
-      "caption":"Brunchin'",
-      "likes":40,
-      "id":"1152964002473690553",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xap1/t51.2885-15/e35/1516572_445736812276082_2116173059_n.jpg"
+      "code":"089a027b",
+      "caption":"NUS School of Design and Environment'",
+      "likes":4.5,
+      "id":"cd4f5a30",
+      "display_src":"http://www.sde.nus.edu.sg/temp-4/DSC_5878.JPG"
    },
    {
-      "code":"_4jHytwcUA",
-      "caption":"2015 can be summed up with one baby and a many lines of code. And sometimes a coding baby. 👶🏼⌨",
-      "likes":62,
-      "id":"1150824171912152320",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/e35/10723795_1149927178351091_1859033096_n.jpg"
+      "code":"2d5b059f",
+      "caption":"Kent Ridge Hall",
+      "likes":5,
+      "id":"ad5d9ab2",
+      "display_src":"https://upload.wikimedia.org/wikipedia/commons/8/8f/NUS%2C_Kent_Ridge_Hall%2C_Nov_06.JPG"
    },
    {
-      "code":"_zbaOlQcbn",
-      "caption":"Lekker Chocoladeletter",
-      "likes":52,
-      "id":"1149382879529256679",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xfp1/t51.2885-15/e35/12346073_1035047523184672_768982339_n.jpg"
+      "code":"1f0204ac",
+      "caption":"Temasek Hall",
+      "likes":4.5,
+      "id":"70730e36",
+      "display_src":"https://upload.wikimedia.org/wikipedia/commons/f/fd/Main_entrance_to_Temasek_Hall%2C_NUS.JPG"
    },
    {
-      "code":"_rmvQfQce8",
-      "caption":"Just discovered the #hamont farmers market has a new ramen place! 🍜",
-      "likes":35,
-      "id":"1147180903383025596",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xft1/t51.2885-15/e35/12331739_1671776806423597_995664526_n.jpg"
+      "code":"4e62076a",
+      "caption":"King Edward VII Hall",
+      "likes":4.5,
+      "id":"d1298606",
+      "display_src":"http://www.kevii.nus.edu.sg/images/about-kevii/KEVII.jpg"
    },
    {
-      "code":"_ep9kiQcVy",
-      "caption":"⛄️",
-      "likes":64,
-      "id":"1143535906423162226",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xft1/t51.2885-15/e35/12354078_447337935474115_1484398925_n.jpg"
+      "code":"1e9d04a5",
+      "caption":"Raffles Hall",
+      "likes":4.5,
+      "id":"f908ed1b",
+      "display_src":"https://upload.wikimedia.org/wikipedia/commons/8/85/Dining_Hall_of_Raffles_Hall%2C_National_University_of_Singapore%2C_at_night_-_20070116.jpg"
    },
    {
-      "code":"_XpJcrwcSn",
-      "caption":"6 page spread on flexbox in this months netmag!",
-      "likes":74,
-      "id":"1141561999742846119",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xfp1/t51.2885-15/e35/12362588_1688046211438811_1395882545_n.jpg"
+      "code":"1a4c044a",
+      "caption":"Eusoff Hall",
+      "likes":4.5,
+      "id":"574045f2",
+      "display_src":"https://c1.staticflickr.com/1/55/187984465_2539eba969_b.jpg"
    },
    {
-      "code":"_KnU7MwceA",
-      "caption":"Hanging out in my office waiting for 5:00 beers to come around.",
-      "likes":54,
-      "id":"1137894817632733056",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xfp1/t51.2885-15/e35/12301208_1533749386944985_1334730917_n.jpg"
+      "code":"1a180448",
+      "caption":"Shears Hall",
+      "likes":4.5,
+      "id":"c989431e",
+      "display_src":"https://userscontent2.emaze.com/images/e5cc520a-621b-4022-ba0e-b158fe6ae8e3/0c51c23c-b245-4c5a-871c-4fd17ec7b420.JPG"
    },
    {
-      "code":"_HMejJQcY5",
-      "caption":"Today I learned that a long pull espresso is called a 'lungo'",
-      "likes":18,
-      "id":"1136932306813044281",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xft1/t51.2885-15/e35/12357319_493317964181479_310198908_n.jpg"
+      "code":"699c08aa",
+      "caption":"Prince George's Park Residence",
+      "likes":5,
+      "id":"32e69eed",
+      "display_src":"https://c1.staticflickr.com/8/7019/6684097143_d80d4f99eb_b.jpg"
    },
    {
-      "code":"_Fq2zmwcaz",
-      "caption":"Awesome hand lettered gift from @eunibae and the HackerYou crew.",
-      "likes":48,
-      "id":"1136502965197194931",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xfp1/t51.2885-15/e35/12317458_1692845870986430_331905833_n.jpg"
+      "code":"b2bf0b96",
+      "caption":"Ridge View Residential College",
+      "likes":4.5,
+      "id":"4cbc33e6",
+      "display_src":"https://upload.wikimedia.org/wikipedia/commons/4/46/NUS%2C_Ridge_View_Residences_4%2C_Nov_06.JPG"
    },
    {
-      "code":"_A2r0aQcfD",
-      "caption":"Some serious hardware meet JavaScript hacks going down this week at hackeryou. Excited for demo day!",
-      "likes":57,
-      "id":"1135147611821557699",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/e35/12276809_750065668431999_184252508_n.jpg"
+      "code":"2da8058a",
+      "caption":"Yale-NUS College",
+      "likes":5,
+      "id":"a097bf5b",
+      "display_src":"https://www.yale-nus.edu.sg/wp-content/uploads/2015/07/1-Courtyard-1024x732.png"
    },
    {
-      "code":"-1rhFawccs",
-      "caption":"Some major audio upgrades coming to my next videos 😍",
-      "likes":39,
-      "id":"1132002270913873708",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/e35/12331333_1650987978502155_1162510634_n.jpg"
+      "code":"5c9d0804",
+      "caption":"Duke-NUS Medical School",
+      "likes":5,
+      "id":"18a34cec",
+      "display_src":"https://www.duke-nus.edu.sg/sites/default/files/About/DukeNUSCampus.jpg"
    },
    {
-      "code":"-pjx-gQcVi",
-      "caption":"My baby and me. Thanks to @bearandsparrow for this one.",
-      "likes":81,
-      "id":"1128590547628442978",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xtf1/t51.2885-15/e35/12298962_863814057068027_460827278_n.jpg"
+      "code":"197e0448",
+      "caption":"The Terrace",
+      "likes":5,
+      "id":"30e9cf69",
+      "display_src":"http://www.gridline.sg/wp-content/uploads/2016/04/LHL-Canteen-Terrace-NUS_01.jpg"
    },
    {
-      "code":"-oTZ0zQcWt",
-      "caption":"It's too early. Send coffee.",
-      "likes":81,
-      "id":"1128237044221461933",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xtf1/t51.2885-15/e35/12328347_990748230999662_1512917342_n.jpg"
+      "code":"0d6e02f9",
+      "caption":"The Deck",
+      "likes":4.5,
+      "id":"02711a47",
+      "display_src":"https://s-media-cache-ak0.pinimg.com/originals/d8/eb/c1/d8ebc1a7c3adc5a56d05766ac19b44c5.jpg"
    },
    {
-      "code":"-mxKQoQcQh",
-      "caption":"They both have figured it out. #lifewithsnickers",
-      "likes":47,
-      "id":"1127804966031967265",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xtp1/t51.2885-15/e35/12256736_1758525004381641_1136705181_n.jpg"
+      "code":"339e05ac",
+      "caption":"Frontier Phase 1",
+      "likes":5,
+      "id":"9d061e1c",
+      "display_src":"http://www.nus.edu.sg/oca/images/Retail/Frontier-Phase1.JPG"
    },
    {
-      "code":"-fasqlQceO",
-      "caption":"Kaitlin decorated the house for the Christmas. So gezellig! #casabos",
-      "likes":46,
-      "id":"1125735850454402958",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xpt1/t51.2885-15/e35/12277581_1028556737218368_1184190781_n.jpg"
+      "code":"180303f7",
+      "caption":"Techno Edge",
+      "likes":4.5,
+      "id":"e554d066",
+      "display_src":"https://upload.wikimedia.org/wikipedia/commons/9/9f/NUS%2C_Engineering%2C_The_Techno_Edge%2C_Nov_06.JPG"
    },
    {
-      "code":"-VBgtGQcSf",
-      "caption":"Trying the new Hamilton Brewery beer. Big fan.",
-      "likes":27,
-      "id":"1122810327591928991",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/e35/12224456_175248682823294_1558707223_n.jpg"
+      "code":"2781055b",
+      "caption":"Central Square",
+      "likes":4.5,
+      "id":"faf7dcd1",
+      "display_src":"http://www.nus.edu.sg/oca/images/Retail/Central%20Square.JPG"
    },
    {
-      "code":"-FpTyHQcau",
-      "caption":"I'm in Austin for a conference and doing some training. Enjoying some local brew with my baby.",
-      "likes":82,
-      "id":"1118481761857291950",
-      "display_src":"https://scontent.cdninstagram.com/hphotos-xpt1/t51.2885-15/e35/11326072_550275398458202_1726754023_n.jpg"
+      "code":"307905d5",
+      "caption":"Pines Food Court",
+      "likes":5,
+      "id":"94d199e9",
+      "display_src":"http://www.nus.edu.sg/oca/images/Retail/Pines-PGPR.JPG"
+   },
+   {
+      "code":"1595040c",
+      "caption":"Foodclique",
+      "likes":5,
+      "id":"2be9ce37",
+      "display_src":"http://www.nus.edu.sg/oca/images/Retail/Foodclique%20PGPR.JPG"
+   },
+   {
+      "code":"1b320493",
+      "caption":"Supersnacks",
+      "likes":5,
+      "id":"a45e29ab",
+      "display_src":"https://blog.nus.edu.sg/reslife/files/2015/09/1-1x4jz03.jpg"
+   },
+   {
+      "code":"10750376",
+      "caption":"McDonalds",
+      "likes":4.5,
+      "id":"f29e5e68",
+      "display_src":"https://pathwazeproduction.s3.amazonaws.com/media/custom_storages.MediaStorage/step_image/nusmcd10.JPG"
    }
 ];
 
