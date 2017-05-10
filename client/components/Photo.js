@@ -23,9 +23,12 @@ const Photo = React.createClass({
 					 		</span>
 					 	</Link>
 					    <Link className="button" to={`/view/${post.code}`}>
+					    	<span className="fa fa-star" style={{marginRight: '2em'}}>
+					    		{" " + post.stars}
+					    	</span>
 					 		<span className="comment-count">
 					 			<span className="speech-bubble"></span>
-					 			{comments[post.code] ? comments[post.code].length : 0 }
+					 			{" " + (comments[post.code] ? comments[post.code].length : 0) }
 					 		</span>
 					 	</Link>
 					</div>
