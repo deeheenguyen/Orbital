@@ -1,8 +1,9 @@
 import React from 'react';
 import Photo from './Photo.js';
-import Comments from './Comments.js'
+import Comments from './Comments.js';
+import Ratings from './Ratings.js';
 
-const Place = React.createClass({
+class Place extends React.Component {
 	render() {
 		const { postId } = this.props.params;
 		const i = this.props.posts.findIndex((post) => 
@@ -13,10 +14,13 @@ const Place = React.createClass({
 		return (
 			<div className="single-photo">
 				<Photo i={i} post={post} {...this.props} />
-				<Comments postComments={postComments} {...this.props}/>
+				<div>
+					<Comments postComments={postComments} {...this.props}/>
+					<Ratings />
+				</div>
 			</div>
 			);
 	}
-});
+}
 
 export default Place;
