@@ -3,7 +3,8 @@ function postComments(state = [], action) {
 		case 'ADD_COMMENT':
 			return [...state, {
 				user: action.author,
-				text: action.comment
+				text: action.comment,
+				stars: action.rating,
 			}];
 		case 'REMOVE_COMMENT':
 			console.log('REMOVE_COMMENT');

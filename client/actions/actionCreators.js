@@ -1,10 +1,11 @@
-export function addComment(postId, author, comment) {
+export function addComment(postId, author, comment, rating) {
 	console.log("Dispatching ADD_COMMENT")
 	return {
 		type: 'ADD_COMMENT',
 		postId,
 		author,
-		comment
+		comment,
+		rating
 	}
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 
-const Photo = React.createClass({
+class Photo extends React.Component {
 	render() {
 		const { post, i, comments } = this.props;
 		return (
@@ -28,7 +28,7 @@ const Photo = React.createClass({
 					    	</span>
 					 		<span className="comment-count">
 					 			<span className="speech-bubble"></span>
-					 			{" " + (comments[post.code] ? comments[post.code].length : 0) }
+					 			{" " + post.num_comments}
 					 		</span>
 					 	</Link>
 					</div>
@@ -37,6 +37,6 @@ const Photo = React.createClass({
 			</figure>
 		)
 	}
-});
+}
 
 export default Photo;

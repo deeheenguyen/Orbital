@@ -1,7 +1,6 @@
 import React from 'react';
 import Photo from './Photo.js';
 import Comments from './Comments.js';
-import Ratings from './Ratings.js';
 
 class Place extends React.Component {
 	render() {
@@ -16,7 +15,6 @@ class Place extends React.Component {
 				<Photo i={i} post={post} {...this.props} />
 				<div>
 					<Comments postComments={postComments} {...this.props}/>
-					<Ratings />
 				</div>
 			</div>
 			);
