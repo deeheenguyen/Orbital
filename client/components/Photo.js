@@ -12,6 +12,15 @@ class Photo extends React.Component {
 						<img src={post.display_src} alt={post.caption}
 							className="grid-photo" />
 					</Link>
+
+					<CSSTransitionGroup transitionName="rating"
+						transitionEnterTimeout={500}
+						transitionLeaveTimeout={500}>
+						<span key={post.stars} className="rating-stars">
+							{post.stars}
+						</span>
+					</CSSTransitionGroup>
+
 				</div>
 
 				<figcaption>
@@ -24,7 +33,7 @@ class Photo extends React.Component {
 					 	</Link>
 					    <Link className="button" to={`/view/${post.code}`}>
 					    	<span className="fa fa-star" style={{marginRight: '2em'}}>
-					    		{" " + post.stars}
+					    		{" " + post.stars.toFixed(1)}
 					    	</span>
 					 		<span className="comment-count">
 					 			<span className="speech-bubble"></span>

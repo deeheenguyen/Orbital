@@ -14,7 +14,7 @@ class Place extends React.Component {
 			<div className="single-photo">
 				<Photo i={i} post={post} {...this.props} />
 				<div>
-					<Comments postComments={postComments} {...this.props}/>
+					<Comments postComments={postComments} i={i} {...this.props}/>
 				</div>
 			</div>
 			);

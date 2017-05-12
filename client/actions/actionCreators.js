@@ -16,3 +16,11 @@ export function removeComment(postId, i) {
 		i
 	}
 }
+
+export function rate(index, rating) {
+	return {
+		type: "RATE",
+		index,
+		rating
+	}
+}

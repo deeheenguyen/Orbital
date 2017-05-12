@@ -13,7 +13,7 @@ class Comments extends React.Component {
 			<div className="comment" key={i}>
 				<p>
 					<strong>★</strong>
-					{comment.stars}
+					{comment.stars.toFixed(1)}
 					<strong>{" " + comment.user}</strong>
 					{comment.text}
 					<button className="remove-comment" onClick={this.props.
@@ -32,6 +32,7 @@ class Comments extends React.Component {
 		console.log(rating);
 		if (rating && author && comment) {
 			this.props.addComment(postId, author, comment, rating);
+			this.props.rate(this.props.i, rating);
 			this.refs.commentForm.reset();
 			this.setState({
 				rating: undefined
