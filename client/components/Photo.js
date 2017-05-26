@@ -25,13 +25,14 @@ class Photo extends React.Component {
 
 				<figcaption>
 					<p>{post.caption}</p>
-					<div className="control-buttons">
-					 	<Link className="button" to={`/view/${post.code}`}>
-					 		<span className="material-icons">
-					 			&#xe52e;
-					 		</span>
-					 	</Link>
-					    <Link className="button" to={`/view/${post.code}`}>
+						<div className="control-buttons">
+								<a href = {post.location_link}>
+									<span className="material-icons" style={{marginRight: '2em'}}>
+												&#xe52e;
+									</span>
+							</a>
+
+					 <Link className="button" to={`/view/${post.code}`}>
 					    	<span className="fa fa-star" style={{marginRight: '2em'}}>
 					    		{" " + post.stars.toFixed(1)}
 					    	</span>

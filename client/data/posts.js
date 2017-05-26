@@ -5,7 +5,8 @@ const posts = [
       "stars":5,
       "num_comments": 1,
       "id":"d1ae2135",
-      "display_src":"http://oi66.tinypic.com/14136uw.jpg"
+      "display_src":"http://oi66.tinypic.com/14136uw.jpg",
+      "location_link":"https://www.google.com/maps/place/NUS+School+of+Computing/@1.295053,103.7716573,17z/data=!3m1!4b1!4m5!3m4!1s0x31da1af8c7e4e75b:0x436963e22924394a!8m2!3d1.295053!4d103.773846"
    },
    {
       "code":"1b34048c",
@@ -13,7 +14,8 @@ const posts = [
       "stars":4.5,
       "num_comments": 2,
       "id":"0e7693ae",
-      "display_src":"http://i63.tinypic.com/34zlva1.jpg"
+      "display_src":"http://i63.tinypic.com/34zlva1.jpg",
+      "location_link":"https://www.google.com/maps/place/NUS+Engineering/@1.300259,103.7686023,17z/data=!3m1!4b1!4m5!3m4!1s0x31da1af73e43dd43:0x28ecbb583b491801!8m2!3d1.300259!4d103.770791"
    },
    {
       "code":"0b9402db",
@@ -21,7 +23,8 @@ const posts = [
       "stars":4.75,
       "num_comments": 2,
       "id":"671731a8",
-      "display_src":"http://i67.tinypic.com/b85rva.jpg"
+      "display_src":"http://i67.tinypic.com/b85rva.jpg",
+      "location_link":"https://www.google.com/maps/place/National+University+of+Singapore/@1.2966426,103.7742052,17z/data=!3m1!4b1!4m5!3m4!1s0x31da1a56784202d9:0x488d08d6c1f88d6b!8m2!3d1.2966426!4d103.7763939"
    },
    {
       "code":"0f4a036d",
@@ -29,7 +32,8 @@ const posts = [
       "stars":0,
       "num_comments": 0,
       "id":"08d36e38",
-      "display_src":"http://oi67.tinypic.com/2cz6lia.jpg"
+      "display_src":"http://oi67.tinypic.com/2cz6lia.jpg",
+      "location_link":"https://www.google.com/maps/place/NUS+Business+School/@1.2924099,103.7718081,17z/data=!3m1!4b1!4m5!3m4!1s0x31da1aff72797d93:0x46e392c21ec882ca!8m2!3d1.2924099!4d103.7739968"
    },
    {
       "code":"0ea0033f",
