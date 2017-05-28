@@ -1,28 +1,28 @@
-import React from 'react';
 import { Link } from 'react-router';
 import PhotoGrid from './PhotoGrid.js';
+import React from 'react';
 
-class Homepage extends React.components{
-  render (){
+var textStyle = {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 50,
+    marginTop: 0
+}
+class Homepage extends React.Component {
+  render() {
     return (
-      <div class="container">
-        <div class="row">
-          <div class="span12">
-            <form id="custom-search-form" class="form-search form-horizontal pull-right">
-                <div class="input-append span12">
-                    <input type="text" class="search-query" placeholder="Search"> </input>
-                     <Link to={PhotoGrid}>
-                       <button type="submit" class="btn">
-                          <i class="icon-search"></i>
-                      </button>
-                    </Link>
-                  </div>
-            </form>
-          </div>
-        </div>
+      <div style ={textStyle}>
+      <form>
+          <label>
+              Name:
+                <input type="text" name="name" />
+          </label>
+
+             <li><Link to="/results">SEARCH</Link></li>
+      </form>
       </div>
     );
   }
-};
+}
 
 export default Homepage;
