@@ -8,6 +8,7 @@ function postComments(state = [], action) {
 			}];
 		case 'REMOVE_COMMENT':
 			console.log('REMOVE_COMMENT');
+			console.log(state);
 			return [
 				...state.slice(0, action.i),
 				...state.slice(action.i + 1)

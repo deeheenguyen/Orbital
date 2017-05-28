@@ -16,11 +16,15 @@ class Comments extends React.Component {
 					{comment.stars.toFixed(1)}
 					<strong>{" " + comment.user}</strong>
 					{comment.text}
-					<button className="remove-comment" onClick={this.props.
-						removeComment.bind(null, this.props.params.postId, i)}>&times;</button>
+					<button className="remove-comment" onClick={this.removeCommentAndRating.bind(this, 
+						this.props.params.postId, this.props.i, i, comment.stars)}>&times;</button>
 				</p>
 			</div>
 		)
+	}
+	removeCommentAndRating(postId, index, i, rating) {
+		this.props.unrate(index, rating);
+		this.props.removeComment(postId, i);
 	}
 	handleSubmit(event) {
 		event.preventDefault();
@@ -29,7 +33,6 @@ class Comments extends React.Component {
 		const author = this.refs.author.value;
 		const comment = this.refs.comment.value;
 		const { rating } = this.state;
-		console.log(rating);
 		if (rating && author && comment) {
 			this.props.addComment(postId, author, comment, rating);
 			this.props.rate(this.props.i, rating);
@@ -41,7 +44,6 @@ class Comments extends React.Component {
 	}
 	setRatings(event) {
 		const rating = event.target.value / 2.0;
-		console.log(rating)
 		this.setState({
 			rating
 		});

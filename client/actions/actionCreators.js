@@ -24,3 +24,11 @@ export function rate(index, rating) {
 		rating
 	}
 }
+
+export function unrate(index, rating) {
+	return {
+		type: "UNRATE",
+		index,
+		rating
+	}
+}
