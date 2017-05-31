@@ -24,7 +24,7 @@ const posts = [
       "num_comments": 2,
       "id":"671731a8",
       "display_src":"http://i67.tinypic.com/b85rva.jpg",
-      "location_link":"https://www.google.com/maps/place/National+University+of+Singapore/@1.2966426,103.7742052,17z/data=!3m1!4b1!4m5!3m4!1s0x31da1a56784202d9:0x488d08d6c1f88d6b!8m2!3d1.2966426!4d103.7763939"
+      "location_link":"https://www.google.com/maps/place/NUS+Department+of+Pharmacy/@1.2959497,103.7794115,17z/data=!4m8!1m2!2m1!1sNUS+faculty+of+science!3m4!1s0x0:0x3791529feb9db869!8m2!3d1.295717!4d103.7788738"
    },
    {
       "code":"0f4a036d",

@@ -3,6 +3,9 @@ import { Link } from 'react-router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Photo extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 	render() {
 		const { post, i, comments } = this.props;
 		return (
@@ -12,15 +15,6 @@ class Photo extends React.Component {
 						<img src={post.display_src} alt={post.caption}
 							className="grid-photo" />
 					</Link>
-
-					<CSSTransitionGroup transitionName="rating"
-						transitionEnterTimeout={500}
-						transitionLeaveTimeout={500}>
-						<span key={post.stars} className="rating-stars">
-							{post.stars}
-						</span>
-					</CSSTransitionGroup>
-
 				</div>
 
 				<figcaption>

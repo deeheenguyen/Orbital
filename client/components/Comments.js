@@ -1,9 +1,14 @@
 import React from 'react';
 import Ratings from './Ratings.js';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Comments extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			lastRating: -1,
+			numAddedComments: 0
+		}
 		this.renderComment = this.renderComment.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.setRatings = this.setRatings.bind(this);
@@ -38,6 +43,8 @@ class Comments extends React.Component {
 			this.props.rate(this.props.i, rating);
 			this.refs.commentForm.reset();
 			this.setState({
+				lastRating: rating,
+				numAddedComments: this.state.numAddedComments + 1,
 				rating: undefined
 			})
 		}
@@ -54,6 +61,7 @@ class Comments extends React.Component {
 			color: '#faa250',
 			fontWeight: 'bold'
 		}
+		console.log()
 		return (
 			<div>
 				<div className="comment">
@@ -78,6 +86,13 @@ class Comments extends React.Component {
 						<input style={rate_btn} type="submit" value="Rate!" />
 					</form>
 				</div>
+				<CSSTransitionGroup transitionName="rating"
+					transitionEnterTimeout={500}
+					transitionLeaveTimeout={500}>
+					<span key={this.state.numAddedComments} className="rating-stars">
+						{this.state.lastRating}
+					</span>
+				</CSSTransitionGroup>
 			</div>
 		)
 	}
