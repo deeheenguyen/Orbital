@@ -1,7 +1,35 @@
+import ActionTypes from '../constants/action_types.js';
+
 export function posts(state = [], action) {
 	switch (action.type) {
-		case "RATE":
-			console.log("RATE!")
+		case ActionTypes.GetPostsRequested:
+			console.log(ActionTypes.GetPostsRequested);
+			return Object.assign({}, state, {
+		        inProgress: true,
+		        error: '',
+		        success: ''
+      		});
+      	case ActionTypes.GetPostsRejected:
+      		console.log(ActionTypes.GetPostsRejected);
+	        return Object.assign({}, state, {
+	        	inProgress: false,
+	        	error: 'Error in getting posts.',
+	      	});
+	    case ActionTypes.GetPostsFulfilled:
+	    	console.log(ActionTypes.GetPostsFulfilled);
+	    	const newState = Object.assign({}, state, {
+		        inProgress: false,
+		        success: 'Got posts.'
+      		});
+      		console.log('raw posts', action.posts);
+      		newState.posts = [];
+      		if (action.posts) {
+        		newState.posts = Object.keys(action.posts).map(k => action.posts[k]);
+      		}
+      		console.log("Posts fetched", newState);
+      		return newState;
+		case ActionTypes.Rate:
+			console.log(ActionTypes.Rate)
 			var i = action.index;
 			var rating = action.rating;
 			var { num_comments } = state[i];
@@ -11,8 +39,8 @@ export function posts(state = [], action) {
 				 num_comments: num_comments + 1},
 				...state.slice(i + 1), // after updating
 			]
-		case "UNRATE":
-			console.log("UNRATE!");
+		case ActionTypes.Unrate:
+			console.log(ActionTypes.Unrate);
 			var rating = action.rating;
 			var i = action.index;
 			var { num_comments } = state[i];

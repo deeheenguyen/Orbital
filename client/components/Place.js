@@ -4,6 +4,7 @@ import Comments from './Comments.js';
 
 class Place extends React.Component {
 	render() {
+		console.log('Props from place', this.props);
 		const { postId } = this.props.params;
 		const i = this.props.posts.findIndex((post) => 
 			post.code === postId);

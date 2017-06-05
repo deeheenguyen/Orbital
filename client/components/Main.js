@@ -2,6 +2,12 @@ import React from 'react';
 import { Link } from 'react-router';
 
 class Main extends React.Component {
+	componentDidMount() {
+    	this.props.getPosts();
+    	console.log('After getting posts', this.props);
+    	this.props.getComments();
+    	console.log('After getting comments', this.props);
+  	}
 	render() {
 		return (
 			<div>
