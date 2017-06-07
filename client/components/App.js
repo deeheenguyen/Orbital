@@ -13,6 +13,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
+	actionCreators.watchCommentsAddedEvent(dispatch);
 	return bindActionCreators(actionCreators, dispatch);
 }
 

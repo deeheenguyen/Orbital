@@ -39,7 +39,8 @@ class Comments extends React.Component {
 		const comment = this.refs.comment.value;
 		const { rating } = this.state;
 		if (rating && author && comment) {
-			this.props.addComment(postId, author, comment, rating);
+			// this.props.addComment(postId, author, comment, rating);
+			this.props.addToComments(postId, rating, comment, author);
 			this.props.rate(this.props.i, rating);
 			this.refs.commentForm.reset();
 			this.setState({
@@ -61,7 +62,7 @@ class Comments extends React.Component {
 			color: '#faa250',
 			fontWeight: 'bold'
 		}
-		console.log()
+		console.log('All comments', this.props.postComments);
 		return (
 			<div>
 				<div className="comment">

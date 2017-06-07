@@ -29,16 +29,18 @@ export function posts(state = [], action) {
       		console.log("Posts fetched", newState);
       		return newState;
 		case ActionTypes.Rate:
-			console.log(ActionTypes.Rate)
+			console.log(ActionTypes.Rate);
 			var i = action.index;
 			var rating = action.rating;
-			var { num_comments } = state[i];
-			return [
-				...state.slice(0, i), // before updating
-				{...state[i], stars: (state[i].stars * num_comments  + rating) / (num_comments + 1),
+			var { num_comments } = state.posts[i];
+			return Object.assign({}, state, {
+				posts: [
+				...state.posts.slice(0, i), // before updating
+				{...state.posts[i], stars: (state.posts[i].stars * num_comments  + rating) / (num_comments + 1),
 				 num_comments: num_comments + 1},
-				...state.slice(i + 1), // after updating
-			]
+				...state.posts.slice(i + 1), // after updating
+				]
+			});
 		case ActionTypes.Unrate:
 			console.log(ActionTypes.Unrate);
 			var rating = action.rating;

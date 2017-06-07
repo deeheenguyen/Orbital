@@ -107,3 +107,62 @@ export function unrate(index, rating) {
 		rating
 	}
 }
+
+export function addToComments(postId, stars, text, user) {
+  return dispatch => {
+    dispatch(addToCommentsRequestedAction());
+    const postCommentsRef = database.ref('/comments/' + postId);
+    postCommentsRef.push({
+      stars,
+      text,
+      user
+    })
+    .then(() => {
+      dispatch(addToCommentsFulfilledAction({
+      	stars,
+      	text,
+      	user 
+      }));
+    })
+    .catch((error) => {
+      dispatch(addToCommentsRejectedAction());
+    });
+  }
+}
+
+
+function addToCommentsRequestedAction() {
+  return {
+    type: ActionTypes.AddToCommentsRequested
+  };
+}
+
+function addToCommentsRejectedAction() {
+  return {
+    type: ActionTypes.AddToCommentsRejected
+  }
+}
+
+function addToCommentsFulfilledAction(comment) {
+  return {
+    type: ActionTypes.AddToCommentsFulfilled,
+    comment
+  };
+}
+
+export function watchCommentsAddedEvent(dispatch) {
+  database.ref('/comments').on('child_changed', (snap) => {
+  	console.log("postId", snap.key)
+  	console.log("comment", snap.val());
+    dispatch(getCommentsAddedAction(snap.key, snap.val()));
+  });
+}
+
+function getCommentsAddedAction(postId, comment) {
+  console.log('------> Dispatching', ActionTypes.CommentAdded);
+  return {
+    type: ActionTypes.CommentAdded,
+    postId,
+    comment
+  };
+}
