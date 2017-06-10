@@ -5,7 +5,7 @@ import React from 'react';
 class Homepage extends React.Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {value: ''};
   }
   static get contextTypes() {
     return {
@@ -14,14 +14,24 @@ class Homepage extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    console.log("change route")
-    this.context.router.push('/results');
+    console.log(this.state.value);
+    this.context.router.push(
+        {
+          pathname: '/results',
+          query: {searchKey: this.state.value},
+         }
+    );
+
+  }
+
+  handleChange(event){
+    this.setState({value: event.target.value});
   }
   render() {
     return (
       <div className="homepage">
-        <form onSubmit={this.handleSubmit}>
-            <input type="text" ref="search-key" /><br/>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+            <input type="text" value = {this.state.value} onChange ={this.handleChange.bind(this)} /><br/>
             <input type="submit" className="button" value="SEARCH"/>
         </form>
       </div>
