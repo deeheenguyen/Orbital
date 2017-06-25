@@ -20,9 +20,10 @@ const router = (
 				<IndexRoute component={Homepage}></IndexRoute>
 				<Route path="/view/:postId" component={Place}></Route>
 				<Route path="/results" component={PhotoGrid}></Route>
+				<Route path="/login" component={Login}></Route>
+				<Route path="/register" component={Register}></Route>
 			</Route>
-				  <Route path="/login" component={Login}></Route>
-					<Route path="/register" component={Register}></Route>
+
 		</Router>
 	</Provider>
 )

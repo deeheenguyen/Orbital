@@ -80,8 +80,8 @@ body
   &:hover
     .remove-comment
       opacity 1
- 
-.comment-form 
+
+.comment-form
   input, textarea
     width 100%
     border 0
@@ -93,7 +93,7 @@ body
 
 .grid-photo-wrap
   position relative
-  
+
 .rating-stars
   background url(https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Empty_Star.svg/2000px-Empty_Star.svg.png) center no-repeat
   background-size contain
@@ -104,16 +104,16 @@ body
   left 30%
   top 40%
   pointer-events none
-  
 
-/*  
-  Buttons  
+
+/*
+  Buttons
 */
 
 .control-buttons
   display flex
   justify-content space-between
-    
+
 button, .button
   border 2px solid lighten(grey, 90%)
   background none
@@ -137,7 +137,7 @@ button, .button
 .speech-bubble
   size = 1.5rem
   width size * 1.2
-  height size 
+  height size
   background blue
   display inline-block
   border-radius 50%
@@ -204,5 +204,36 @@ label:hover, label:hover ~ label { color: #FFDF00;  } /* color previous stars on
 /* Hover highlights */
 input:checked + label:hover, input:checked ~ label:hover, /* highlight current and previous stars */
 input:checked ~ label:hover ~ label, /* highlight previous selected stars for new rating */
-label:hover ~ input:checked ~ label /* highlight previous selected stars */ { color: #FFDF00;  } 
+label:hover ~ input:checked ~ label /* highlight previous selected stars */ { color: #FFDF00;  }
 
+.label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.form-control {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+
+.input {
+    color: #000;
+}
