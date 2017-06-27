@@ -6,8 +6,8 @@ import App from './components/App.js';
 import PhotoGrid from './components/PhotoGrid.js';
 import Place from './components/Place.js';
 import Homepage from './components/Homepage.js';
-import Login from './components/Login.js';
-import Register from './components/Register.js';
+import Login from './components/Login/Login.js';
+import Register from './components/Register/Register.js';
 
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';

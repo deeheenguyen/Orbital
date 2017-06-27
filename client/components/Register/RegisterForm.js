@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class Register extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class Register extends React.Component {
       passwordConfirmation: ' ',
     }
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   onChange(e) {
@@ -19,7 +21,8 @@ class Register extends React.Component {
   onSubmit(e){
     e.preventDefault();
     console.log(this.state);
-
+    axios.post('/api/users', {user: this.state});
+    console.log("we are running this");
   }
   render(){
     return (
