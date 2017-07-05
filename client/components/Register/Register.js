@@ -1,16 +1,22 @@
 import React from 'react';
-import RegisterForm from "./RegisterForm";
+import RegisterForm from "./RegisterForm.js";
+import {connect} from 'react-redux';
+import {userRegisterRequest} from '../../actions/registerAction.js';
 
 class Register extends React.Component {
   render(){
+    const {userRegisterRequest} = this.props;
     return (
       <div className="row">
           <div className ="col-md-4 col-md-offset-4">
-                <RegisterForm />
+                <RegisterForm  userRegisterRequest = {userRegisterRequest}/>
           </div>
       </div>
     );
   }
 }
 
-export default Register;
+Register.propTypes = {
+  userRegisterRequest: React.PropTypes.func.isRequired
+}
+export default connect(null, {userRegisterRequest})(Register);

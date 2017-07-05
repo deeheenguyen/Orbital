@@ -1,7 +1,10 @@
 import React from 'react';
-import axios from 'axios';
 
-class Register extends React.Component {
+var style = {
+  textAlign: 'left',
+  color: 'black',
+}
+class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,14 +24,14 @@ class Register extends React.Component {
   onSubmit(e){
     e.preventDefault();
     console.log(this.state);
-    axios.post('/api/users', {user: this.state});
+    this.props.userRegisterRequest(this.state);
     console.log("we are running this");
   }
   render(){
     return (
-      <form onSubmit = {this.onSubmit}>
-              <div className="form-group">
-                <label className="control-label" >Username</label>
+      <form onSubmit = {this.onSubmit} style = {style} >
+              <div className="form-group" >
+                <label className="control-label">Username</label>
                   <input
                     type="text"
                     value = {this.state.username}
@@ -68,7 +71,7 @@ class Register extends React.Component {
                   />
               </div>
               <div className = "form-group">
-                  <button className = "btn btn-primary btn-lg">
+                  <button className = "btn btn-primary btn-lg" style = {{textAlign : 'center'}}>
                       Sign Up
                   </button>
               </div>
@@ -77,4 +80,7 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+RegisterForm.propTypes = {
+  userRegisterRequest: React.PropTypes.func.isRequired
+}
+export default RegisterForm;
