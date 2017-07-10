@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import classnames from 'classnames';
 
 var style = {
   textAlign: 'left',
@@ -8,10 +10,11 @@ class RegisterForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: ' ',
-      email: ' ',
-      password: ' ',
-      passwordConfirmation: ' ',
+      username: '',
+      email: '',
+      password: '',
+      passwordConfirmation: '',
+      errors: {},
     }
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -22,15 +25,22 @@ class RegisterForm extends React.Component {
   }
 
   onSubmit(e){
+    this.setState({errors : {}});
     e.preventDefault();
     console.log(this.state);
-    this.props.userRegisterRequest(this.state);
+
+    this.props.userRegisterRequest(this.state).then(
+      () => {},
+      ({ data }) => {this.setState({errors: data})}
+    );
     console.log("we are running this");
   }
   render(){
+    const {errors} = this.state;
     return (
+
       <form onSubmit = {this.onSubmit} style = {style} >
-              <div className="form-group" >
+              <div className={classnames("form-group", {'has-error' : errors.username})} >
                 <label className="control-label">Username</label>
                   <input
                     type="text"
@@ -39,8 +49,9 @@ class RegisterForm extends React.Component {
                     name="username"
                     className="form-control"
                   />
+                  {errors.username && <span className="help-block">{errors.username}</span>}
               </div>
-              <div className="form-group">
+              <div className={classnames("form-group", {'has-error' : errors.password})}>
                 <label className="control-label">Password</label>
                   <input
                     type="text"
@@ -49,8 +60,9 @@ class RegisterForm extends React.Component {
                     name="password"
                     className="form-control"
                   />
+                  {errors.username && <span className="help-block">{errors.password}</span>}
               </div>
-              <div className="form-group">
+              <div className={classnames("form-group", {'has-error' : errors.passwordConfirmation})}>
                   <label className="control-label">Confirmation Password</label>
                   <input
                     type="text"
@@ -59,8 +71,9 @@ class RegisterForm extends React.Component {
                     name="passwordConfirmation"
                     className="form-control"
                   />
+                    {errors.username && <span className="help-block">{errors.passwordConfirmation}</span>}
               </div>
-              <div className="form-group">
+              <div className={classnames("form-group", {'has-error' : errors.email})}>
                 <label className="control-label" >Email</label>
                   <input
                     type="text"
@@ -69,6 +82,7 @@ class RegisterForm extends React.Component {
                     name="email"
                     className="form-control"
                   />
+                  {errors.username && <span className="help-block">{errors.email}</span>}
               </div>
               <div className = "form-group">
                   <button className = "btn btn-primary btn-lg" style = {{textAlign : 'center'}}>

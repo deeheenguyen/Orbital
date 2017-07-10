@@ -19,4 +19,4 @@ class Register extends React.Component {
 Register.propTypes = {
   userRegisterRequest: React.PropTypes.func.isRequired
 }
-export default connect(null, {userRegisterRequest})(Register);
+export default connect((state) => {return {}} , {userRegisterRequest})(Register);
