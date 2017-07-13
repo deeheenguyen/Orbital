@@ -30,7 +30,6 @@ class Comments extends React.Component {
 				postComments: commentContents,
 			})
   		});
-
 	}
 	renderComment(comment, i) {
 		console.log(comment.commentId)
