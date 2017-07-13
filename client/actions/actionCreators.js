@@ -1,5 +1,6 @@
 import ActionTypes from '../constants/action_types.js';
 import database from './database';
+const uid = require('uid');
 
 export function getPosts() {
 	return dispatch => {
@@ -73,63 +74,30 @@ function getCommentsFulfilledAction(comments) {
 	};
 }
 
-export function addComment(postId, author, comment, rating) {
-	console.log("Dispatching ADD_COMMENT")
-	return {
-		type: ActionTypes.AddComment,
-		postId,
-		author,
-		comment,
-		rating
-	}
-}
-
-export function removeComment(postId, i) {
-	return {
-		type: ActionTypes.RemoveComment,
-		postId,
-		i
-	}
-}
-
-export function rate(index, rating) {
-	return {
-		type: ActionTypes.Rate,
-		index,
-		rating
-	}
-}
-
-export function unrate(index, rating) {
-	return {
-		type: ActionTypes.Unrate,
-		index,
-		rating
-	}
-}
-
+// Add comments action creators
 export function addToComments(postId, stars, text, user) {
-  return dispatch => {
-    dispatch(addToCommentsRequestedAction());
-    const postCommentsRef = database.ref('/comments/' + postId);
-    postCommentsRef.push({
-      stars,
-      text,
-      user
-    })
-    .then(() => {
-      dispatch(addToCommentsFulfilledAction({
-      	stars,
-      	text,
-      	user 
-      }));
-    })
-    .catch((error) => {
-      dispatch(addToCommentsRejectedAction());
-    });
-  }
+	return dispatch => {
+		dispatch(addToCommentsRequestedAction());
+		const commentId = uid()
+		const postCommentsRef = database.ref('/comments/' + postId + "/" + commentId);
+		postCommentsRef.set({
+		  stars,
+		  text,
+		  user,
+		  commentId
+		})
+		.then(() => {
+			dispatch(addToCommentsFulfilledAction({
+				stars,
+				text,
+				user 
+			}));
+		})
+		.catch((error) => {
+			dispatch(addToCommentsRejectedAction());
+		});
+	}
 }
-
 
 function addToCommentsRequestedAction() {
   return {
@@ -146,23 +114,44 @@ function addToCommentsRejectedAction() {
 function addToCommentsFulfilledAction(comment) {
   return {
     type: ActionTypes.AddToCommentsFulfilled,
-    comment
+    commentId
   };
 }
 
-export function watchCommentsAddedEvent(dispatch) {
-  database.ref('/comments').on('child_changed', (snap) => {
-  	console.log("postId", snap.key)
-  	console.log("comment", snap.val());
-    dispatch(getCommentsAddedAction(snap.key, snap.val()));
-  });
+
+// Remove comments action creators
+export function removeComment(postId, commentId) {
+	return dispatch => {
+		dispatch(removeCommentRequestedAction());
+		const postCommentsRef = database.ref('/comments/' + postId + "/" + commentId);
+		postCommentsRef.remove()
+		.then(() => {
+			dispatch(removeCommentFulfilledAction({
+				postId,
+				commentId
+			}));
+		})
+		.catch((error) => {
+			dispatch(removeCommentRejectedAction());
+		});
+	}
 }
 
-function getCommentsAddedAction(postId, comment) {
-  console.log('------> Dispatching', ActionTypes.CommentAdded);
+function removeCommentRequestedAction() {
   return {
-    type: ActionTypes.CommentAdded,
-    postId,
-    comment
+    type: ActionTypes.RemoveCommentRequested
+  };
+}
+
+function removeCommentRejectedAction() {
+  return {
+    type: ActionTypes.RemoveCommentRejected
+  }
+}
+
+function removeCommentFulfilledAction(commentInfo) {
+  return {
+    type: ActionTypes.RemoveCommentFulfilled,
+    commentInfo
   };
 }

@@ -20,9 +20,7 @@ var loginStyle = {
 class Main extends React.Component {
 	componentDidMount() {
     	this.props.getPosts();
-    	console.log('After getting posts', this.props);
     	this.props.getComments();
-    	console.log('After getting comments', this.props);
   }
   static get contextTypes(){
     return {

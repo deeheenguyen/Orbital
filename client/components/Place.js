@@ -9,9 +9,7 @@ class Place extends React.Component {
 		const i = this.props.posts.findIndex((post) => 
 			post.code === postId);
 		const post = this.props.posts[i];
-		console.log('Current post', post);
 		const postComments = this.props.comments[postId] || [];
-		console.log('All postComments', this.props.comments);
 
 		return (
 			<div className="single-photo">

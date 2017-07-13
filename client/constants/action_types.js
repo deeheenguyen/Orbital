@@ -11,12 +11,9 @@ const ActionTypes = {
 	AddToCommentsRejected: 'ADD_TO_COMMENTS_REJECTED',
 	AddToCommentsFulfilled: 'ADD_TO_COMMENT_FULFILLED',
 
-	CommentAdded: 'COMMENT_ADDED',
-
-	Rate: 'RATE',
-	Unrate: 'UNRATE',
-	AddComment: 'ADD_COMMENT',
-	RemoveComment: 'REMOVE_COMMENT'
+	RemoveCommentRequested: 'REMOVE_COMMENT_REQUESTED',
+	RemoveCommentRejected: 'REMOVE_COMMENT_REJECTED',
+	RemoveCommentFulfilled: 'REMOVE_COMMENT_FULFILLED'
 }
 
 export default ActionTypes;

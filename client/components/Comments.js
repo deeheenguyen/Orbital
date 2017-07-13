@@ -1,19 +1,39 @@
 import React from 'react';
 import Ratings from './Ratings.js';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
+import database from '../actions/database';
 
 class Comments extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			lastRating: -1,
-			numAddedComments: 0
+			numAddedComments: 0,
+			postComments: this.props.postComments
 		}
 		this.renderComment = this.renderComment.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.setRatings = this.setRatings.bind(this);
 	}
+	componentDidMount() {
+		const { postId } = this.props.params;
+		database.ref('/comments/' + postId).on('value', (snap) => {
+			const currentComments = snap.val()
+			// get array comments' contents to easily render comment
+			console.log(currentComments)
+			if (currentComments !== null) {
+				var commentContents = Object.values(currentComments)
+			} else {
+				var commentContents = []
+			}
+			this.setState({
+				postComments: commentContents,
+			})
+  		});
+
+	}
 	renderComment(comment, i) {
+		console.log(comment.commentId)
 		return (
 			<div className="comment" key={i}>
 				<p>
@@ -22,14 +42,14 @@ class Comments extends React.Component {
 					<strong>{" " + comment.user}</strong>
 					{comment.text}
 					<button className="remove-comment" onClick={this.removeCommentAndRating.bind(this, 
-						this.props.params.postId, this.props.i, i, comment.stars)}>&times;</button>
+						this.props.params.postId, comment.commentId)}>&times;</button>
 				</p>
 			</div>
 		)
 	}
-	removeCommentAndRating(postId, index, i, rating) {
-		this.props.unrate(index, rating);
-		this.props.removeComment(postId, i);
+	removeCommentAndRating(postId, commentId) {
+		// this.props.unrate(index, rating);
+		this.props.removeComment(postId, commentId);
 	}
 	handleSubmit(event) {
 		event.preventDefault();
@@ -39,9 +59,7 @@ class Comments extends React.Component {
 		const comment = this.refs.comment.value;
 		const { rating } = this.state;
 		if (rating && author && comment) {
-			// this.props.addComment(postId, author, comment, rating);
 			this.props.addToComments(postId, rating, comment, author);
-			this.props.rate(this.props.i, rating);
 			this.refs.commentForm.reset();
 			this.setState({
 				lastRating: rating,
@@ -66,7 +84,7 @@ class Comments extends React.Component {
 		return (
 			<div>
 				<div className="comment">
-					{this.props.postComments.map(this.renderComment)}
+					{this.state.postComments.map(this.renderComment)}
 					<form ref="commentForm" className="comment-form" 
 					onSubmit={this.handleSubmit}>
 						<input type="text" ref="author" placeholder="author"/>
