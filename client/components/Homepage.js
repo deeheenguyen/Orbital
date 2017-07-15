@@ -2,6 +2,17 @@ import { Link, Router } from 'react-router';
 import PhotoGrid from './PhotoGrid.js';
 import React from 'react';
 
+var styleSearch = {
+  textAlign: 'center',
+  font: '10px',
+  color: 'black',
+  width: '500px',
+  height: '50px',
+}
+
+var styleBox = {
+  textAlign: 'top',
+}
 class Homepage extends React.Component {
   constructor(props) {
     super(props);
@@ -30,11 +41,13 @@ class Homepage extends React.Component {
   render() {
     return (
       <div className="homepage">
-        <form onSubmit={this.handleSubmit.bind(this)}>
-            <input type="text" value = {this.state.value} onChange ={this.handleChange.bind(this)} /><br/>
+            <input type="text" value = {this.state.value} onChange ={this.handleChange.bind(this)} style = {styleSearch} /><br/>
+            <form onSubmit={this.handleSubmit.bind(this)} style = {styleBox} >
             <input type="submit" className="button" value="SEARCH"/>
         </form>
+          <p> free food events</p>
       </div>
+
     );
   }
 }

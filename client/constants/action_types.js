@@ -13,7 +13,10 @@ const ActionTypes = {
 
 	RemoveCommentRequested: 'REMOVE_COMMENT_REQUESTED',
 	RemoveCommentRejected: 'REMOVE_COMMENT_REJECTED',
-	RemoveCommentFulfilled: 'REMOVE_COMMENT_FULFILLED'
+	RemoveCommentFulfilled: 'REMOVE_COMMENT_FULFILLED',
+
+	AddFlashMessage: 'ADD_FLASH_MESSAGE',
+	DeleteFlashMessage: 'DELETE_FLASH_MESSAGE',
 }
 
 export default ActionTypes;

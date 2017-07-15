@@ -1,7 +1,8 @@
 import React from 'react';
-import axios from 'axios';
 import classnames from 'classnames';
-
+import validateInput from '../../../server/shared/validation/register.js';
+import TextFieldGroup from '../common/TextFieldGroup.js';
+import {browserHistory} from 'react-router';
 var style = {
   textAlign: 'left',
   color: 'black',
@@ -23,67 +24,68 @@ class RegisterForm extends React.Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value});
   }
-
+  isValid(){
+    const {errors, isValid} = validateInput(this.state);
+    if (!isValid){
+      this.setState({errors});
+    }
+    return isValid;
+  }
   onSubmit(e){
-    this.setState({errors : {}});
     e.preventDefault();
-    console.log(this.state);
-
-    this.props.userRegisterRequest(this.state).then(
-      () => {},
-      ({ data }) => {this.setState({errors: data})}
-    );
-    console.log("we are running this");
+    if (this.isValid()) {
+      this.setState({errors : {}});
+      this.props.userRegisterRequest(this.state).then(
+        () => {
+          this.props.addFlashMessage({
+            type: 'success',
+            text: 'You signed up successfully. Welcome!'
+          });
+          this.context.router.push('/');
+        },
+        ({ data }) => {this.setState({errors: data})}
+      );
+      console.log("we are running this");
+    }
   }
   render(){
     const {errors} = this.state;
     return (
 
       <form onSubmit = {this.onSubmit} style = {style} >
-              <div className={classnames("form-group", {'has-error' : errors.username})} >
-                <label className="control-label">Username</label>
-                  <input
-                    type="text"
-                    value = {this.state.username}
-                    onChange= {this.onChange.bind(this)}
-                    name="username"
-                    className="form-control"
+                 <TextFieldGroup
+                    error={errors.username}
+                    label="Username"
+                    onChange={this.onChange}
+                    value={this.state.username}
+                    field="username"
                   />
-                  {errors.username && <span className="help-block">{errors.username}</span>}
-              </div>
-              <div className={classnames("form-group", {'has-error' : errors.password})}>
-                <label className="control-label">Password</label>
-                  <input
-                    type="text"
-                    value = {this.state.password}
-                    onChange= {this.onChange.bind(this)}
-                    name="password"
-                    className="form-control"
+
+                  <TextFieldGroup
+                    error={errors.email}
+                    label="Email"
+                    onChange={this.onChange}
+                    value={this.state.email}
+                    field="email"
                   />
-                  {errors.username && <span className="help-block">{errors.password}</span>}
-              </div>
-              <div className={classnames("form-group", {'has-error' : errors.passwordConfirmation})}>
-                  <label className="control-label">Confirmation Password</label>
-                  <input
-                    type="text"
-                    value = {this.state.passwordConfirmation}
-                    onChange= {this.onChange.bind(this)}
-                    name="passwordConfirmation"
-                    className="form-control"
+
+                  <TextFieldGroup
+                    error={errors.password}
+                    label="Password"
+                    onChange={this.onChange}
+                    value={this.state.password}
+                    field="password"
+                    type="password"
                   />
-                    {errors.username && <span className="help-block">{errors.passwordConfirmation}</span>}
-              </div>
-              <div className={classnames("form-group", {'has-error' : errors.email})}>
-                <label className="control-label" >Email</label>
-                  <input
-                    type="text"
-                    value = {this.state.email}
-                    onChange= {this.onChange.bind(this)}
-                    name="email"
-                    className="form-control"
+
+                  <TextFieldGroup
+                    error={errors.passwordConfirmation}
+                    label="Password Confirmation"
+                    onChange={this.onChange}
+                    value={this.state.passwordConfirmation}
+                    field="passwordConfirmation"
+                    type="password"
                   />
-                  {errors.username && <span className="help-block">{errors.email}</span>}
-              </div>
               <div className = "form-group">
                   <button className = "btn btn-primary btn-lg" style = {{textAlign : 'center'}}>
                       Sign Up
@@ -95,6 +97,10 @@ class RegisterForm extends React.Component {
 }
 
 RegisterForm.propTypes = {
-  userRegisterRequest: React.PropTypes.func.isRequired
+  userRegisterRequest: React.PropTypes.func.isRequired,
+  addFlashMessage: React.PropTypes.func.isRequired
+}
+RegisterForm.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 export default RegisterForm;

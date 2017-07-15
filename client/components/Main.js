@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-
+import FlashMessagesList from './flash/FlashMessagesList.js';
 var bgColors = { "Default": "#81b71a",
                     "Blue": "#00B1E1",
                     "Cyan": "#37BC9B",
@@ -11,6 +11,7 @@ var bgColors = { "Default": "#81b71a",
 var myCSS = {
 	  color: "red",
 		textAlign: "center",
+    marginTop: '5px',
 };
 
 var loginStyle = {
@@ -47,7 +48,7 @@ class Main extends React.Component {
         <h1>
 					<Link to="/">NUSWhere</Link>
 				</h1>
-
+        <FlashMessagesList />
 				{ React.cloneElement(this.props.children, this.props) }
 			</div>
 			);

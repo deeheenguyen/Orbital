@@ -2,14 +2,16 @@ import React from 'react';
 import RegisterForm from "./RegisterForm.js";
 import {connect} from 'react-redux';
 import {userRegisterRequest} from '../../actions/registerAction.js';
+import {addFlashMessage} from '../../actions/flashMessages.js';
 
 class Register extends React.Component {
   render(){
-    const {userRegisterRequest} = this.props;
+    const {userRegisterRequest, addFlashMessage} = this.props;
+    console.log(addFlashMessage);
     return (
       <div className="row">
           <div className ="col-md-4 col-md-offset-4">
-                <RegisterForm  userRegisterRequest = {userRegisterRequest}/>
+                <RegisterForm  userRegisterRequest={userRegisterRequest} addFlashMessage={addFlashMessage}/>
           </div>
       </div>
     );
@@ -17,6 +19,7 @@ class Register extends React.Component {
 }
 
 Register.propTypes = {
-  userRegisterRequest: React.PropTypes.func.isRequired
+  userRegisterRequest: React.PropTypes.func.isRequired,
+  addFlashMessage: React.PropTypes.func.isRequired
 }
-export default connect((state) => {return {}} , {userRegisterRequest})(Register);
+export default connect((state) => {return {}} , {userRegisterRequest, addFlashMessage})(Register);
