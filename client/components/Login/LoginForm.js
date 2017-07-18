@@ -1,5 +1,10 @@
 import React from 'react';
 import TextFieldGroup from '../common/TextFieldGroup.js'
+import validateInput from '../../../server/shared/validation/login.js';
+import { login } from '../../actions/authActions';
+import { connect } from 'react-redux';
+
+
 var style = {
   textAlign: 'left',
   color: 'black',
@@ -16,6 +21,13 @@ class LoginForm extends React.Component {
       this.onChange = this.onChange.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
     }
+    isValid() {
+      const {errors, isValid}  = validateInput(this.state);
+      if (!isValid) {
+        this.setState({ errors });
+      }
+      return isValid;
+    }
 
     onChange(e) {
       this.setState({[e.target.name]: e.target.value});
@@ -25,6 +37,17 @@ class LoginForm extends React.Component {
       e.preventDefault();
       console.log(JSON.stringify(this.state) + "this is state of login");
       console.log("we are running LoginForm");
+      if (this.isValid()) {
+      this.setState({ errors: {}});
+      // will change the fucntion login first
+      /*
+      this.props.login(this.state).then(
+        (res) => this.context.router.push('/'),
+        (err) => this.setState({ errors: err.response.data.errors})
+      );
+      */
+    }
+
     }
     render(){
       const {errors} = this.state;
@@ -49,12 +72,21 @@ class LoginForm extends React.Component {
                       Login
                   </button>
                   <br/>
-                  <button>Login with Facebook</button>
-                  <button>Login with IVLE</button>
+          </form>
+          <form >
+              <button>Login with Facebook</button>
           </form>
         </div>
       );
     }
 }
 
-export default LoginForm;
+LoginForm.propTypes = {
+  login: React.PropTypes.func.isRequired
+}
+
+LoginForm.contextTypes = {
+  router: React.PropTypes.object.isRequired
+}
+
+export default connect(null, { login })(LoginForm);
