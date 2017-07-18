@@ -17,6 +17,9 @@ class Homepage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {value: ''};
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFreeFood = this.handleFreeFood.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   static get contextTypes() {
     return {
@@ -32,20 +35,26 @@ class Homepage extends React.Component {
           query: {searchKey: this.state.value},
          }
     );
-
   }
 
   handleChange(event){
     this.setState({value: event.target.value});
   }
+
+  handleFreeFood(event) {
+    console.log("yahaayaahaah");
+    this.context.router.push('/freefood');
+  }
   render() {
     return (
       <div className="homepage">
-            <input type="text" value = {this.state.value} onChange ={this.handleChange.bind(this)} style = {styleSearch} /><br/>
-            <form onSubmit={this.handleSubmit.bind(this)} style = {styleBox} >
+            <input type="text" value = {this.state.value} onChange ={this.handleChange} style = {styleSearch} /><br/>
+            <form onSubmit={this.handleSubmit} style = {styleBox} >
             <input type="submit" className="button" value="SEARCH"/>
         </form>
-          <p> free food events</p>
+          <form onSubmit={this.handleFreeFood}>
+                  <button type="submit">Free Food events</button>
+          </form>
       </div>
 
     );

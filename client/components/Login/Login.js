@@ -1,17 +1,13 @@
 import React from 'react';
-import { FacebookLogin } from 'react-facebook-login-component';
+import LoginForm from './LoginForm.js';
 
 class Login extends React.Component{
-  responseFacebook(response) {
-     console.log(response);
-   }
-
-   render() {
+  render() {
      return (
-       <div>
-        <p>
-                    FacebookLogin
-        </p>
+       <div className="row">
+           <div className ="col-md-4 col-md-offset-4">
+                 <LoginForm />
+           </div>
        </div>
      )
    }
