@@ -39,6 +39,7 @@
     "firebase": "^4.1.1",
     "raven-js": "^2.3.0",
     "react": "^15.6.1",
+    "reactable": "^0.14.1",
     "react-addons-css-transition-group": "^15.0.2",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.6.1",
