@@ -1,3 +1,4 @@
+import { Link, Router } from 'react-router';
 import React from 'react';
 import Photo from './Photo.js'
 /*
@@ -194,9 +195,14 @@ class PhotoGrid extends React.Component {
 		console.log("this is search key: " + this.state.keyWords);
 		console.log(this.props.posts);
 		return (
-			<div className="photo-grid">
-			{this.state.myPost.map((post, i) => <Photo {...this.props}
-			key={i} i={i} post={post} />)}
+			<div>
+				<h1>
+					<Link to="/">NUSWhere</Link>
+				</h1>
+				<div className="photo-grid">
+				{this.state.myPost.map((post, i) => <Photo {...this.props}
+				key={i} i={i} post={post} />)}
+				</div>
 			</div>
 		);
 	}

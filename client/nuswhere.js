@@ -8,8 +8,8 @@ import Place from './components/Place.js';
 import Homepage from './components/Homepage.js';
 import Login from './components/Login/Login.js';
 import Register from './components/Register/Register.js';
-import FreeFood from './components/FreeFood/FreeFood.js';
-import FreeFoodFrom from './components/FreeFood/FreeFoodForm.js'
+import Events from './components/Events/Events.js';
+import AddEventForm from './components/Events/AddEventForm.js'
 
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
@@ -24,10 +24,9 @@ const router = (
 				<Route path="/results" component={PhotoGrid}></Route>
 				<Route path="/login" component={Login}></Route>
 				<Route path="/register" component={Register}></Route>
-
+				<Route path="/upload" component={AddEventForm}></Route>
+				<Route path="/events" component={Events}></Route>
 			</Route>
-			<Route path="/freefood" component={FreeFood}></Route>
-			<Route path="/upload" component={FreeFoodFrom}></Route>
 
 		</Router>
 	</Provider>

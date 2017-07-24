@@ -22,6 +22,7 @@ class Main extends React.Component {
 	componentDidMount() {
     	this.props.getPosts();
     	this.props.getComments();
+      this.props.getEvents();
   }
   static get contextTypes(){
     return {
@@ -38,20 +39,20 @@ class Main extends React.Component {
     console.log("this is register");
     this.context.router.push('/register');
   }
+  handleEvents(event) {
+    event.preventDefault();
+    console.log("Route to /events");
+    this.context.router.push('/events');
+  }
 	render() {
     const hasUser = true;
 		return (
 			<div style= {myCSS}>
         <p style= {loginStyle}>
-
+          <button type="submit" className="button" onClick={this.handleEvents.bind(this)}> Campus Events </button>
           {hasUser && <button type="submit" className="button" onClick={this.handleLogin.bind(this)}> Login </button>}
             <button type="submit" className="button" onClick={this.handleRegister.bind(this)}> Register </button>
-
         </p>
-
-        <h1>
-					<Link to="/">NUSWhere</Link>
-				</h1>
         <FlashMessagesList />
 				{ React.cloneElement(this.props.children, this.props) }
 			</div>

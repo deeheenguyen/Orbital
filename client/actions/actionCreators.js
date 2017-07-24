@@ -74,6 +74,42 @@ function getCommentsFulfilledAction(comments) {
 	};
 }
 
+export function getEvents() {
+	return dispatch => {
+		dispatch(getEventsRequestedAction());
+		return database.ref('/events/').once('value', snap => {
+			const events = snap.val();
+			console.log('Snapped events', events);
+			dispatch(getEventsFulfilledAction(events))
+		}).catch((error) => {
+			console.log(error);
+			dispatch(getEventsRejectedAction());
+		});
+	}
+}
+
+function getEventsRequestedAction() {
+	console.log("Dispatching ", ActionTypes.GetEventsRequested)
+	return {
+		type: ActionTypes.GetEventsRequested
+	};
+}
+
+function getEventsRejectedAction() {
+	console.log("Dispatching", ActionTypes.GetEventsRejected)
+	return {
+		type: ActionTypes.GetEventsRejected
+	};
+}
+
+function getEventsFulfilledAction(events) {
+	console.log("Dispatching", ActionTypes.GetEventsFulfilled)
+	return {
+		type: ActionTypes.GetEventsFulfilled,
+		events
+	};
+}
+
 // Add comments action creators
 export function addToComments(postId, stars, text, user) {
 	return dispatch => {
@@ -117,6 +153,53 @@ function addToCommentsFulfilledAction(comment) {
     commentId
   };
 }
+
+// Add events action creators
+export function addToEvents(name, location_code, category, time, description) {
+	return dispatch => {
+		dispatch(addToEventsRequestedAction());
+		const eventId = uid()
+		const eventRef = database.ref('/events/' + location_code + "/" + eventId);
+		eventRef.set({
+		  name,
+		  category,
+		  time,
+		  description,
+		  eventId
+		})
+		.then(() => {
+			dispatch(addToEventsFulfilledAction({
+				name,
+				category,
+				time,
+				description
+			}));
+		})
+		.catch((error) => {
+			dispatch(addToEventsRejectedAction());
+		});
+	}
+}
+
+function addToEventsRequestedAction() {
+  return {
+    type: ActionTypes.AddToEventsRequested
+  };
+}
+
+function addToEventsRejectedAction() {
+  return {
+    type: ActionTypes.AddToEventsRejected
+  }
+}
+
+function addToEventsFulfilledAction(event) {
+  return {
+    type: ActionTypes.AddToEventsFulfilled,
+    commentId
+  };
+}
+
 
 
 // Remove comments action creators

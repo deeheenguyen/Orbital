@@ -62,7 +62,7 @@ class Photo extends React.Component {
 					</Link>
 				</div>
 				<figcaption>
-					<p>{post.caption}</p>
+					<p className='photo-caption'>{post.caption}</p>
 					<div className="control-buttons">
 					 	<a className="button" href={post.location_link}>
 					 		<span className="material-icons">
@@ -80,7 +80,6 @@ class Photo extends React.Component {
 						</Link>
 					</div>
 				</figcaption>
-
 			</figure>
 		)
 	}

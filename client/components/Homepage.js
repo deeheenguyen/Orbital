@@ -18,7 +18,6 @@ class Homepage extends React.Component {
     super(props);
     this.state = {value: ''};
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleFreeFood = this.handleFreeFood.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
   static get contextTypes() {
@@ -41,22 +40,19 @@ class Homepage extends React.Component {
     this.setState({value: event.target.value});
   }
 
-  handleFreeFood(event) {
-    console.log("yahaayaahaah");
-    this.context.router.push('/freefood');
-  }
   render() {
     return (
-      <div className="homepage">
-            <input type="text" value = {this.state.value} onChange ={this.handleChange} style = {styleSearch} /><br/>
-            <form onSubmit={this.handleSubmit} style = {styleBox} >
-            <input type="submit" className="button" value="SEARCH"/>
-        </form>
-          <form onSubmit={this.handleFreeFood}>
-                  <button type="submit">Free Food events</button>
+      <div>
+        <h1>
+            <Link to="/">NUSWhere</Link>
+        </h1>
+        <div className="homepage">
+          <input type="text" value = {this.state.value} onChange ={this.handleChange} style = {styleSearch} /><br/>
+          <form onSubmit={this.handleSubmit} style = {styleBox} >
+              <input type="submit" className="button" value="SEARCH"/>
           </form>
+        </div>
       </div>
-
     );
   }
 }
