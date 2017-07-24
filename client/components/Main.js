@@ -39,12 +39,16 @@ class Main extends React.Component {
     this.context.router.push('/register');
   }
 	render() {
+    const hasUser = true;
 		return (
 			<div style= {myCSS}>
         <p style= {loginStyle}>
-            <button type="submit" className="button" onClick={this.handleLogin.bind(this)}> Login </button>
+
+          {hasUser && <button type="submit" className="button" onClick={this.handleLogin.bind(this)}> Login </button>}
             <button type="submit" className="button" onClick={this.handleRegister.bind(this)}> Register </button>
+
         </p>
+
         <h1>
 					<Link to="/">NUSWhere</Link>
 				</h1>
