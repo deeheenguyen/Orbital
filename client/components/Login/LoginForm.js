@@ -1,7 +1,7 @@
 import React from 'react';
 import TextFieldGroup from '../common/TextFieldGroup.js'
 import validateInput from '../../../server/shared/validation/login.js';
-import { login } from '../../actions/authActions';
+import { login } from '../../actions/actionCreators';
 import { connect } from 'react-redux';
 
 
@@ -40,12 +40,12 @@ class LoginForm extends React.Component {
       if (this.isValid()) {
       this.setState({ errors: {}});
       // will change the fucntion login first
-      /*
+
       this.props.login(this.state).then(
         (res) => this.context.router.push('/'),
         (err) => this.setState({ errors: err.response.data.errors})
       );
-      */
+    
     }
 
     }

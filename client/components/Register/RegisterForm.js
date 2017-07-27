@@ -3,6 +3,8 @@ import classnames from 'classnames';
 import validateInput from '../../../server/shared/validation/register.js';
 import TextFieldGroup from '../common/TextFieldGroup.js';
 import {browserHistory} from 'react-router';
+import {connect} from 'react-redux';
+
 var style = {
   textAlign: 'left',
   color: 'black',
@@ -41,6 +43,9 @@ class RegisterForm extends React.Component {
             type: 'success',
             text: 'You signed up successfully. Welcome!'
           });
+          console.log("add to users in register form");
+          console.log(JSON.stringify(this.state));
+          this.props.addToUsers(this.state);
           this.context.router.push('/');
         },
         ({ data }) => {this.setState({errors: data})}
@@ -98,9 +103,12 @@ class RegisterForm extends React.Component {
 
 RegisterForm.propTypes = {
   userRegisterRequest: React.PropTypes.func.isRequired,
-  addFlashMessage: React.PropTypes.func.isRequired
+  addFlashMessage: React.PropTypes.func.isRequired,
+  addToUsers: React.PropTypes.func.isRequired,
 }
 RegisterForm.contextTypes = {
   router: React.PropTypes.object.isRequired
 }
+
+
 export default RegisterForm;

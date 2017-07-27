@@ -23,6 +23,7 @@ class Main extends React.Component {
     	this.props.getPosts();
     	this.props.getComments();
       this.props.getEvents();
+      this.props.getUsers();
   }
   static get contextTypes(){
     return {

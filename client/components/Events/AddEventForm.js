@@ -34,7 +34,8 @@ class AddEventForm extends React.Component {
     const time = this.refs.time.value;
     const description = this.refs.description.value;
     if (name && location_code && category && time) {
-      this.props.addToEvents(name, location_code, category, time, description); 
+      console.log("we are running this from add event form");
+      this.props.addToEvents(name, location_code, category, time, description);
       this.refs.eventForm.reset();
     }
   }
