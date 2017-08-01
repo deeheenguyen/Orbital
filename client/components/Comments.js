@@ -1,7 +1,7 @@
 import React from 'react';
 import Ratings from './Ratings.js';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
-import database from '../actions/database';
+import database, { auth, provider } from '../actions/database.js';
 
 class Comments extends React.Component {
 	constructor(props) {
@@ -9,13 +9,23 @@ class Comments extends React.Component {
 		this.state = {
 			lastRating: -1,
 			numAddedComments: 0,
-			postComments: this.props.postComments
+			postComments: this.props.postComments,
+			user: null
 		}
 		this.renderComment = this.renderComment.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.setRatings = this.setRatings.bind(this);
 	}
 	componentDidMount() {
+		auth.onAuthStateChanged((user) => {
+			if (user) {
+			  	this.setState({ user });
+			} else {
+				this.setState({
+					user: null
+				});
+			}
+		});
 		const { postId } = this.props.params;
 		database.ref('/comments/' + postId).on('value', (snap) => {
 			const currentComments = snap.val()
@@ -79,29 +89,38 @@ class Comments extends React.Component {
 			color: '#faa250',
 			fontWeight: 'bold'
 		}
-		console.log('All comments', this.props.postComments);
+		console.log("User comment", this.state.user);
 		return (
 			<div>
 				<div className="comment">
 					{this.state.postComments.map(this.renderComment)}
 					<form ref="commentForm" className="comment-form" 
 					onSubmit={this.handleSubmit}>
-						<input type="text" ref="author" placeholder="author"/>
-						<input type="text" ref="comment" placeholder="comment"/>
-						<fieldset className="rate" onChange={this.setRatings}>
-						    <input type="radio" id="rating10" name="rating" value="10" /><label htmlFor="rating10" title="5 stars"></label>
-						    <input type="radio" id="rating9" name="rating" value="9" /><label className="half" htmlFor="rating9" title="4 1/2 stars"></label>
-						    <input type="radio" id="rating8" name="rating" value="8" /><label htmlFor="rating8" title="4 stars"></label>
-						    <input type="radio" id="rating7" name="rating" value="7" /><label className="half" htmlFor="rating7" title="3 1/2 stars"></label>
-						    <input type="radio" id="rating6" name="rating" value="6" /><label htmlFor="rating6" title="3 stars"></label>
-						    <input type="radio" id="rating5" name="rating" value="5" /><label className="half" htmlFor="rating5" title="2 1/2 stars"></label>
-						    <input type="radio" id="rating4" name="rating" value="4" /><label htmlFor="rating4" title="2 stars"></label>
-						    <input type="radio" id="rating3" name="rating" value="3" /><label className="half" htmlFor="rating3" title="1 1/2 stars"></label>
-						    <input type="radio" id="rating2" name="rating" value="2" /><label htmlFor="rating2" title="1 star"></label>
-						    <input type="radio" id="rating1" name="rating" value="1" /><label className="half" htmlFor="rating1" title="1/2 star"></label>
-						    <input type="radio" id="rating0" name="rating" value="0" /><label htmlFor="rating0" title="No star"></label>
-						</fieldset>
-						<input style={rate_btn} type="submit" value="Rate!" />
+						{this.state.user?
+							<div>
+								<input type="text" ref="author" placeholder="author"/>
+								<input type="text" ref="comment" placeholder="comment"/>
+								<fieldset className="rate" onChange={this.setRatings}>
+								    <input type="radio" id="rating10" name="rating" value="10" /><label htmlFor="rating10" title="5 stars"></label>
+								    <input type="radio" id="rating9" name="rating" value="9" /><label className="half" htmlFor="rating9" title="4 1/2 stars"></label>
+								    <input type="radio" id="rating8" name="rating" value="8" /><label htmlFor="rating8" title="4 stars"></label>
+								    <input type="radio" id="rating7" name="rating" value="7" /><label className="half" htmlFor="rating7" title="3 1/2 stars"></label>
+								    <input type="radio" id="rating6" name="rating" value="6" /><label htmlFor="rating6" title="3 stars"></label>
+								    <input type="radio" id="rating5" name="rating" value="5" /><label className="half" htmlFor="rating5" title="2 1/2 stars"></label>
+								    <input type="radio" id="rating4" name="rating" value="4" /><label htmlFor="rating4" title="2 stars"></label>
+								    <input type="radio" id="rating3" name="rating" value="3" /><label className="half" htmlFor="rating3" title="1 1/2 stars"></label>
+								    <input type="radio" id="rating2" name="rating" value="2" /><label htmlFor="rating2" title="1 star"></label>
+								    <input type="radio" id="rating1" name="rating" value="1" /><label className="half" htmlFor="rating1" title="1/2 star"></label>
+								    <input type="radio" id="rating0" name="rating" value="0" /><label htmlFor="rating0" title="No star"></label>
+								</fieldset>
+								<input style={rate_btn} type="submit" value="Rate!" />
+							</div>
+						:
+							<div>
+								<input type="text" disabled={true} placeholder="Please login or sign up"/>
+								<input type="text" disabled={true} placeholder="to write comment"/>
+							</div>
+						}
 					</form>
 				</div>
 				<CSSTransitionGroup transitionName="rating"

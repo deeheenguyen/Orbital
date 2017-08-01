@@ -15,7 +15,6 @@ function comments(state = [], action) {
 	        	error: 'Error in getting comments.',
 	      	});
 	    case ActionTypes.GetCommentsFulfilled:
-	    	console.log("reached");
 	    	var newState = Object.assign({}, state, {
 		        inProgress: false,
 		        success: 'Got comments.',
