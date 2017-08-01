@@ -10,14 +10,13 @@ var bgColors = { "Default": "#81b71a",
                     "Red": "#E9573F",
                     "Yellow": "#F6BB42",
 };
-var myCSS = {
-	  color: "red",
-		textAlign: "center",
-    marginTop: '5px',
-};
 
 var loginStyle = {
-	textAlign: "right",
+	textAlign: "right"
+}
+
+var eventStyle = {
+  textAlign: "left"
 }
 
 class Main extends React.Component {
@@ -53,15 +52,15 @@ class Main extends React.Component {
   handleLogin(event){
     event.preventDefault();
     console.log("this is login");
-    // this.context.router.push('/login');
-    auth.signInWithPopup(provider) 
-    .then((result) => {
-      const user = result.user;
-      this.setState({
-        user
-      });
-      console.log(this.state.user);
-    });
+    this.context.router.push('/login');
+    // auth.signInWithPopup(provider) 
+    // .then((result) => {
+    //   const user = result.user;
+    //   this.setState({
+    //     user
+    //   });
+    //   console.log(this.state.user);
+    // });
   }
   handleRegister(event){
     event.preventDefault();
@@ -85,15 +84,24 @@ class Main extends React.Component {
 	render() {
     console.log("User:", this.state.user);
 		return (
-			<div style= {myCSS}>
-        <p style= {loginStyle}>
-          <button type="submit" className="button" onClick={this.handleEvents}> Campus Events </button>
-          {this.state.user?
-            <button type="submit" className="button" onClick={this.handleLogout}> Logout </button>
-          :
-            <button type="submit" className="button" onClick={this.handleLogin}> Login </button>
-          }
-        </p>
+			<div>
+        <div className="col-xs-6 text-left">
+          <div style={eventStyle}>
+            <button type="submit" className="button" onClick={this.handleEvents}> Campus Events </button>
+          </div>
+        </div>
+        <div className="col-xs-6 text-right">
+          <div style={loginStyle}>
+            {this.state.user?
+              <button type="submit" className="button" onClick={this.handleLogout}> Logout </button>
+            :
+              <div>
+                <button type="submit" className="button" onClick={this.handleLogin}> Login </button>
+                <button type="submit" className="button" onClick={this.handleRegister}> Register </button>
+              </div>
+            }
+          </div>
+        </div>
         <FlashMessagesList />
 				{ React.cloneElement(this.props.children, this.props) }
 			</div>

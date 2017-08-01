@@ -56,47 +56,27 @@ class RegisterForm extends React.Component {
   render(){
     const {errors} = this.state;
     return (
-
-      <form onSubmit = {this.onSubmit} style = {style} >
-                 <TextFieldGroup
-                    error={errors.username}
-                    label="Username"
-                    onChange={this.onChange}
-                    value={this.state.username}
-                    field="username"
-                  />
-
-                  <TextFieldGroup
-                    error={errors.email}
-                    label="Email"
-                    onChange={this.onChange}
-                    value={this.state.email}
-                    field="email"
-                  />
-
-                  <TextFieldGroup
-                    error={errors.password}
-                    label="Password"
-                    onChange={this.onChange}
-                    value={this.state.password}
-                    field="password"
-                    type="password"
-                  />
-
-                  <TextFieldGroup
-                    error={errors.passwordConfirmation}
-                    label="Password Confirmation"
-                    onChange={this.onChange}
-                    value={this.state.passwordConfirmation}
-                    field="passwordConfirmation"
-                    type="password"
-                  />
-              <div className = "form-group">
-                  <button className = "btn btn-primary btn-lg" style = {{textAlign : 'center'}}>
-                      Sign Up
-                  </button>
-              </div>
-      </form>
+      <div>
+        <div id="login-box">
+          <div className="left">  
+            <input type="text" name="username" placeholder="Username" />
+            <input type="text" name="email" placeholder="E-mail" />
+            <input type="password" name="password" placeholder="Password" />
+            <input type="password" name="password2" placeholder="Retype password" />
+            
+            <input type="submit" name="signup_submit" value="Sign me up" />
+          </div>
+          
+          <div className="right">
+            <span className="loginwith">Register with<br />social network</span>
+            
+            <button className="social-signin facebook">Facebook</button>
+            <button className="social-signin twitter">Twitter</button>
+            <button className="social-signin google">Google</button>
+          </div>
+          <div className="or">OR</div>
+        </div>
+      </div>
     );
   }
 }

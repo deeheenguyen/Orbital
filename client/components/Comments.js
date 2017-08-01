@@ -3,6 +3,11 @@ import Ratings from './Ratings.js';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import database, { auth, provider } from '../actions/database.js';
 
+var suggestLoginSignupStyle = {
+	fontSize: "1.5rem"
+}
+
+
 class Comments extends React.Component {
 	constructor(props) {
 		super(props);
@@ -13,6 +18,8 @@ class Comments extends React.Component {
 			user: null
 		}
 		this.renderComment = this.renderComment.bind(this);
+		this.handleLogin = this.handleLogin.bind(this);
+		this.handleSignup = this.handleSignup.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.setRatings = this.setRatings.bind(this);
 	}
@@ -59,6 +66,21 @@ class Comments extends React.Component {
 	removeCommentAndRating(postId, commentId) {
 		// this.props.unrate(index, rating);
 		this.props.removeComment(postId, commentId);
+	}
+	handleLogin(event) {
+		event.preventDefault();
+		auth.signInWithPopup(provider) 
+	    .then((result) => {
+	      const user = result.user;
+	      this.setState({
+	        user
+	      });
+	      console.log(this.state.user);
+	    });
+	}
+	handleSignup(event) {
+		event.preventDefault();
+		console.log("Signup user")
 	}
 	handleSubmit(event) {
 		event.preventDefault();
@@ -117,8 +139,12 @@ class Comments extends React.Component {
 							</div>
 						:
 							<div>
-								<input type="text" disabled={true} placeholder="Please login or sign up"/>
-								<input type="text" disabled={true} placeholder="to write comment"/>
+								<p style={suggestLoginSignupStyle}>
+									<button className="suggest-login-signup-btn" onClick={this.handleLogin}>Log in</button>
+									or
+									<button className="suggest-login-signup-btn" onClick={this.handleSignup}>Register</button>
+									to review your favorite places!
+								</p>
 							</div>
 						}
 					</form>

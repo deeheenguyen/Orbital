@@ -53,29 +53,22 @@ class LoginForm extends React.Component {
       const {errors} = this.state;
       return (
         <div>
-          <form onSubmit = {this.onSubmit} style = {style}>
-               <TextFieldGroup
-                  field="username"
-                  label="Username"
-                  value={this.state.username}
-                  error={errors.username}
-                  onChange={this.onChange}
-                />
-                <TextFieldGroup
-                    field="password"
-                    label="Password"
-                    value={this.state.password}
-                    error={errors.password}
-                    onChange={this.onChange}
-                  />
-                  <button className = "btn btn-primary btn-lg" style = {{textAlign : 'center'}}>
-                      Login
-                  </button>
-                  <br/>
-          </form>
-          <form >
-              <button>Login with Facebook</button>
-          </form>
+          <div id="login-box">
+            <div className="left">
+              <input type="text" placeholder="E-mail" />
+              <input type="password" placeholder="Password" />
+              <input type="submit" value="Log me in" />
+            </div>
+            
+            <div className="right">
+              <span className="loginwith">Log in with<br />social network</span>
+              
+              <button className="social-signin facebook">Facebook</button>
+              <button className="social-signin twitter">Twitter</button>
+              <button className="social-signin google">Google</button>
+            </div>
+            <div className="or">OR</div>
+          </div>
         </div>
       );
     }

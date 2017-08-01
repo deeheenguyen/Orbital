@@ -11,7 +11,7 @@ var headerStyle = {
 }
 
 var tableStyle = {
-  color: '#5C868E'
+  color: '#5C868E',
 }
 
 class Events extends React.Component {
@@ -81,7 +81,7 @@ class Events extends React.Component {
             {this.renderTable()}
           </div>
           <form onSubmit={this.handleUpload}>
-            <button className ="submit"> Upload new events </button>
+            <button type="submit" className="button"> Upload new events </button>
           </form>
       </div>
     );

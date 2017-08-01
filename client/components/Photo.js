@@ -3,6 +3,12 @@ import { Link } from 'react-router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import database from '../actions/database';
 
+var photoCaptionStyle = {
+	color: "#FB5660",
+	textAlign: "center"
+};
+
+
 class Photo extends React.Component {
 	constructor(props) {
 		super(props);
@@ -62,7 +68,7 @@ class Photo extends React.Component {
 					</Link>
 				</div>
 				<figcaption>
-					<p className='photo-caption'>{post.caption}</p>
+					<p style={photoCaptionStyle} className='photo-caption'>{post.caption}</p>
 					<div className="control-buttons">
 					 	<a className="button" href={post.location_link}>
 					 		<span className="material-icons">
