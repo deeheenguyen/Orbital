@@ -4,7 +4,7 @@ import React from 'react';
 
 var styleSearch = {
   textAlign: 'center',
-  font: '10px',
+  fontSize: '30px',
   color: 'black',
   width: '500px',
   height: '50px',

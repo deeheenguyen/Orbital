@@ -165,13 +165,15 @@ class PhotoGrid extends React.Component {
 		// Because the temp will display our results, what we should do is about
 		// arrange the list with proper ranking to display
 		for(var i = 0; i < scoreList.length; i++){
-			for (var j = i; j <scoreList.length; j++) {
-				if (scoreList[i][0] < scoreList[j][0]) {
-					var temporary = scoreList[j][0];
-					scoreList[j][0] = scoreList[i][0];
-					scoreList[i][0] = temporary;
-					scoreList[j][1] =i;
-					scoreList[i][1] =j;
+			for (var j = 1; j <scoreList.length - i; j++) {
+				if (scoreList[j-1][0] < scoreList[j][0]) {
+					var temporary = scoreList[j -1][0];
+					scoreList[j-1][0] = scoreList[j][0];
+					scoreList[j][0] = temporary;
+					var temporary2 = scoreList[j-1][1];
+					scoreList[j-1][1] =scoreList[j][1];
+					scoreList[j][1] = temporary2;
+
 				}
 			}
 		}
@@ -188,23 +190,36 @@ class PhotoGrid extends React.Component {
 		//this.state.numResult = count;
 		//this.setState(this.state);
 		/// return the length of results
+		console.log("after this will display the temp");
+		console.log(JSON.stringify(temp));
 		return temp;
 	}
 	render() {
 		console.log("this is starting of the search algorithm");
 		console.log("this is search key: " + this.state.keyWords);
 		console.log(this.props.posts);
-		return (
-			<div>
-				<h1>
-					<Link to="/">NUSWhere</Link>
-				</h1>
-				<div className="photo-grid">
-				{this.state.myPost.map((post, i) => <Photo {...this.props}
-				key={i} i={i} post={post} />)}
+		if (this.state.myPost.length === 0) {
+			return (
+				<div>
+					<h1>
+						<Link to="/">NUSWhere</Link>
+					</h1>
+				 <p> There is no results</p>
 				</div>
-			</div>
-		);
+			);
+		} else {
+			return (
+				<div>
+					<h1>
+						<Link to="/">NUSWhere</Link>
+					</h1>
+					<div className="photo-grid">
+					{this.state.myPost.map((post, i) => <Photo {...this.props}
+					key={i} i={i} post={post} />)}
+					</div>
+				</div>
+			);
+		}
 	}
 }
 
