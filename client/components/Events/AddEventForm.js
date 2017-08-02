@@ -45,16 +45,19 @@ class AddEventForm extends React.Component {
       this.props.addToEvents(name, location_code, category, time, description);
       this.refs.eventForm.reset();
     }
-    this.context.router.push('/events');
+      this.handleUploadFile();
+    console.log("is this really go back");
+    this.context.router.goBack();
+    console.log("yes it is");
   }
+
   static get contextTypes() {
     return {
       router: React.PropTypes.object.isRequired,
     };
   }
 
-  handleUploadFile(event) {
-    event.preventDefault();
+  handleUploadFile() {
     console.log("Uploading the file");
     var fileName = this.state.file.name;
     var storageRef =  storage.ref('image/' + fileName);
@@ -139,7 +142,6 @@ class AddEventForm extends React.Component {
               <li>
                   <label>Upload image </label>
                    <input type="file" onChange = {this.handleImageChange}/>
-                    <button onClick={this.handleUploadFile}> Upload File </button>
                     {$imagePreview}
               </li>
               <li>
