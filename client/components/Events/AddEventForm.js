@@ -34,10 +34,15 @@ class AddEventForm extends React.Component {
     const time = this.refs.time.value;
     const description = this.refs.description.value;
     if (name && location_code && category && time) {
-      console.log("we are running this from add event form");
       this.props.addToEvents(name, location_code, category, time, description);
       this.refs.eventForm.reset();
     }
+    this.context.router.push('/events');
+  }
+  static get contextTypes() {
+    return {
+      router: React.PropTypes.object.isRequired,
+    };
   }
   render() {
     console.log(this.props);

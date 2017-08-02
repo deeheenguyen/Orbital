@@ -66,6 +66,7 @@ class Main extends React.Component {
       this.setState({
         user: null
       });
+      this.context.router.push('/');
     });
   }
   handleEvents(event) {
