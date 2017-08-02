@@ -16,6 +16,7 @@ class AddEventForm extends React.Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.createSelectItems = this.createSelectItems.bind(this);
+    this.handleUploadFile = this.handleUploadFile.bind(this);
   }
   createSelectItems() {
     let items = [];
@@ -34,9 +35,13 @@ class AddEventForm extends React.Component {
     const time = this.refs.time.value;
     const description = this.refs.description.value;
     if (name && location_code && category && time) {
-      this.props.addToEvents(name, location_code, category, time, description); 
+      this.props.addToEvents(name, location_code, category, time, description);
       this.refs.eventForm.reset();
     }
+  }
+  handleUploadFile(event) {
+    event.preventDefault();
+    console.log("Uploading the file");
   }
   render() {
     console.log(this.props);
@@ -71,6 +76,12 @@ class AddEventForm extends React.Component {
               <li>
                   <label>Description </label>
                   <textarea ref="description" className="field-long field-textarea"></textarea>
+              </li>
+              <li>
+                  <label>Upload image </label>
+                  <button type="button" onClick={this.handleUploadFile}>
+                      Choose File
+                  </button>
               </li>
               <li>
                   <input type="submit" value="Submit" />
