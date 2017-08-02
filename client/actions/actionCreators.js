@@ -1,5 +1,5 @@
 import ActionTypes from '../constants/action_types.js';
-import database from './database';
+import firebase, { auth, database } from './database.js';
 const uid = require('uid');
 
 export function getPosts() {
@@ -111,7 +111,7 @@ function getEventsFulfilledAction(events) {
 }
 
 // Add comments action creators
-export function addToComments(postId, stars, text, user) {
+export function addToComments(postId, stars, text, user, userUid) {
 	return dispatch => {
 		dispatch(addToCommentsRequestedAction());
 		const commentId = uid()
@@ -120,6 +120,7 @@ export function addToComments(postId, stars, text, user) {
 		  stars,
 		  text,
 		  user,
+		  userUid,
 		  commentId
 		})
 		.then(() => {

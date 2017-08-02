@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
-import database from '../actions/database';
+import firebase, { auth, database } from '../actions/database.js';
 
 var photoCaptionStyle = {
 	color: "#FB5660",

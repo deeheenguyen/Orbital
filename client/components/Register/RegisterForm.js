@@ -4,6 +4,8 @@ import validateInput from '../../../server/shared/validation/register.js';
 import TextFieldGroup from '../common/TextFieldGroup.js';
 import {browserHistory} from 'react-router';
 import {connect} from 'react-redux';
+import firebase, { auth, database } from '../../actions/database.js';
+
 
 var style = {
   textAlign: 'left',
@@ -21,6 +23,7 @@ class RegisterForm extends React.Component {
     }
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
   }
 
   onChange(e) {
@@ -53,29 +56,82 @@ class RegisterForm extends React.Component {
       console.log("we are running this");
     }
   }
+  handleRegister(event) {
+    event.preventDefault();
+    console.log("Register");
+    const username = this.refs.username.value;
+    const email = this.refs.email.value;
+    const pw = this.refs.password.value;
+    const pw2 = this.refs.password2.value;
+    var result = {};
+    if (pw != pw2) {
+      this.props.addFlashMessage({
+            type: 'error',
+            text: 'Passwords do not match'
+          });
+    } else {
+      firebase.auth().createUserWithEmailAndPassword(email, pw).then((user) => {
+        user.updateProfile({
+          displayName: username
+        }).then(() => {
+          this.props.addFlashMessage({
+              type: 'success',
+              text: 'You have signed up successfully. Welcome ' + username + '!'
+            });
+          this.context.router.push('/');
+        }, (error) => {
+          this.props.addFlashMessage({
+            type: 'error',
+            text: 'Something went wrong while updating your account username'
+          });
+        })
+      }, (error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        this.props.addFlashMessage({
+            type: 'error',
+            text: errorMessage
+          });
+      });
+    }
+  }
+  handleAuthentication(provider) {
+    auth.signInWithPopup(provider) 
+    .then((result) => {
+      const user = result.user;
+      this.setState({
+        user
+      });
+      this.props.addFlashMessage({
+            type: 'success',
+            text: 'You have signed up successfully. Welcome ' + user.displayName + '!'
+          });
+      this.context.router.push('/');
+    });
+  }
   render(){
     const {errors} = this.state;
     return (
       <div>
-        <div id="login-box">
+        <form className="login-box" onSubmit={this.handleRegister}>
           <div className="left">  
-            <input type="text" name="username" placeholder="Username" />
-            <input type="text" name="email" placeholder="E-mail" />
-            <input type="password" name="password" placeholder="Password" />
-            <input type="password" name="password2" placeholder="Retype password" />
+            <input type="textForm" ref="username" placeholder="Username" required/>
+            <input type="email" ref="email" placeholder="E-mail" required/>
+            <input type="password" ref="password" placeholder="Password" required/>
+            <input type="password" ref="password2" placeholder="Confirm password" required/>
             
             <input type="submit" name="signup_submit" value="Sign me up" />
           </div>
           
           <div className="right">
-            <span className="loginwith">Register with<br />social network</span>
+            <span className="loginwith">Register with</span>
             
-            <button className="social-signin facebook">Facebook</button>
-            <button className="social-signin twitter">Twitter</button>
-            <button className="social-signin google">Google</button>
+            <button className="social-signin google" onClick={this.handleAuthentication.bind(this, new firebase.auth.GoogleAuthProvider)}>Google</button>
+            <button className="social-signin facebook" onClick={this.handleAuthentication.bind(this, new firebase.auth.FacebookAuthProvider)}>Facebook</button>
           </div>
           <div className="or">OR</div>
-        </div>
+        </form>
       </div>
     );
   }

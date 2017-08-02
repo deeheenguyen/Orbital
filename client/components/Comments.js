@@ -1,7 +1,8 @@
 import React from 'react';
 import Ratings from './Ratings.js';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
-import database, { auth, provider } from '../actions/database.js';
+import firebase, { auth, database } from '../actions/database.js';
+import { browserHistory } from 'react-router'
 
 var suggestLoginSignupStyle = {
 	fontSize: "1.5rem"
@@ -19,7 +20,7 @@ class Comments extends React.Component {
 		}
 		this.renderComment = this.renderComment.bind(this);
 		this.handleLogin = this.handleLogin.bind(this);
-		this.handleSignup = this.handleSignup.bind(this);
+		this.handleRegister = this.handleRegister.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.setRatings = this.setRatings.bind(this);
 	}
@@ -48,8 +49,17 @@ class Comments extends React.Component {
 			})
   		});
 	}
+	static get contextTypes(){
+	    return {
+	      router: React.PropTypes.object.isRequired,
+	    };
+	  }
 	renderComment(comment, i) {
 		console.log(comment.commentId)
+		var uid = null;
+		if (this.state.user !== null) {
+			uid = this.state.user.uid;
+		}
 		return (
 			<div className="comment" key={i}>
 				<p>
@@ -57,30 +67,26 @@ class Comments extends React.Component {
 					{comment.stars.toFixed(1)}
 					<strong>{" " + comment.user}</strong>
 					{comment.text}
-					<button className="remove-comment" onClick={this.removeCommentAndRating.bind(this, 
-						this.props.params.postId, comment.commentId)}>&times;</button>
+					{ uid == comment.userUid?
+						<button className="remove-comment" onClick={this.removeCommentAndRating.bind(this, 
+							this.props.params.postId, comment.commentId)}>&times;</button>
+					:
+						<strong></strong>
+					}
 				</p>
 			</div>
 		)
 	}
 	removeCommentAndRating(postId, commentId) {
-		// this.props.unrate(index, rating);
 		this.props.removeComment(postId, commentId);
 	}
 	handleLogin(event) {
 		event.preventDefault();
-		auth.signInWithPopup(provider) 
-	    .then((result) => {
-	      const user = result.user;
-	      this.setState({
-	        user
-	      });
-	      console.log(this.state.user);
-	    });
+		this.context.router.push('/login');
 	}
-	handleSignup(event) {
+	handleRegister(event) {
 		event.preventDefault();
-		console.log("Signup user")
+		this.context.router.push('/register');
 	}
 	handleSubmit(event) {
 		event.preventDefault();
@@ -89,8 +95,9 @@ class Comments extends React.Component {
 		const author = this.refs.author.value;
 		const comment = this.refs.comment.value;
 		const { rating } = this.state;
+		const { uid } = this.state.user;
 		if (rating && author && comment) {
-			this.props.addToComments(postId, rating, comment, author);
+			this.props.addToComments(postId, rating, comment, author, uid);
 			this.refs.commentForm.reset();
 			this.setState({
 				lastRating: rating,
@@ -111,16 +118,16 @@ class Comments extends React.Component {
 			color: '#faa250',
 			fontWeight: 'bold'
 		}
-		console.log("User comment", this.state.user);
+		const user = this.state.user;
 		return (
 			<div>
 				<div className="comment">
 					{this.state.postComments.map(this.renderComment)}
 					<form ref="commentForm" className="comment-form" 
 					onSubmit={this.handleSubmit}>
-						{this.state.user?
+						{user?
 							<div>
-								<input type="text" ref="author" placeholder="author"/>
+								<input type="text" ref="author" value={user.displayName} disabled={true} placeholder="author"/>
 								<input type="text" ref="comment" placeholder="comment"/>
 								<fieldset className="rate" onChange={this.setRatings}>
 								    <input type="radio" id="rating10" name="rating" value="10" /><label htmlFor="rating10" title="5 stars"></label>
@@ -142,7 +149,7 @@ class Comments extends React.Component {
 								<p style={suggestLoginSignupStyle}>
 									<button className="suggest-login-signup-btn" onClick={this.handleLogin}>Log in</button>
 									or
-									<button className="suggest-login-signup-btn" onClick={this.handleSignup}>Register</button>
+									<button className="suggest-login-signup-btn" onClick={this.handleRegister}>Register</button>
 									to review your favorite places!
 								</p>
 							</div>

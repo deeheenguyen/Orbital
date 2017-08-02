@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import FlashMessagesList from './flash/FlashMessagesList.js';
-import database, { auth, provider } from '../actions/database.js';
+import firebase, { auth, database } from '../actions/database.js';
 
 var bgColors = { "Default": "#81b71a",
                     "Blue": "#00B1E1",
@@ -53,14 +53,6 @@ class Main extends React.Component {
     event.preventDefault();
     console.log("this is login");
     this.context.router.push('/login');
-    // auth.signInWithPopup(provider) 
-    // .then((result) => {
-    //   const user = result.user;
-    //   this.setState({
-    //     user
-    //   });
-    //   console.log(this.state.user);
-    // });
   }
   handleRegister(event){
     event.preventDefault();

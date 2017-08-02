@@ -3,7 +3,7 @@ import Photo from './Photo.js';
 import Comments from './Comments.js';
 import { Link, Router } from 'react-router';
 import Reactable from 'reactable';
-import database, { auth, provider } from '../actions/database.js';
+import firebase, { auth, database } from '../actions/database.js';
 
 var Table = Reactable.Table,
     Thead = Reactable.Thead,

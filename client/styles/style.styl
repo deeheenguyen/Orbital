@@ -12,7 +12,7 @@ body
   outline: none;
 }
 
-#login-box {
+.login-box {
   position: relative;
   margin: 5% auto;
   width: 600px;
@@ -32,7 +32,8 @@ body
   height: 400px;
 }
 
-input[type="text"],
+input[type="textForm"],
+input[type="email"],
 input[type="password"] {
   display: block;
   box-sizing: border-box;
@@ -48,7 +49,8 @@ input[type="password"] {
   transition: 0.2s ease;
 }
 
-input[type="text"]:focus,
+input[type="textForm"]:focus,
+input[type="email"]:focus,
 input[type="password"]:focus {
   border-bottom: 2px solid blue;
   color: blue;
@@ -144,10 +146,6 @@ button.social-signin:active {
 
 button.social-signin.facebook {
   background: #32508E;
-}
-
-button.social-signin.twitter {
-  background: #55ACEE;
 }
 
 button.social-signin.google {
