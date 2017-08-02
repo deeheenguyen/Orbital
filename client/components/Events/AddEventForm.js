@@ -38,6 +38,12 @@ class AddEventForm extends React.Component {
       this.props.addToEvents(name, location_code, category, time, description);
       this.refs.eventForm.reset();
     }
+    this.context.router.push('/events');
+  }
+  static get contextTypes() {
+    return {
+      router: React.PropTypes.object.isRequired,
+    };
   }
   handleUploadFile(event) {
     event.preventDefault();

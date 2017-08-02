@@ -1,5 +1,5 @@
 import ActionTypes from '../constants/action_types.js';
-import database from './database';
+import firebase, { auth, database } from './database.js';
 const uid = require('uid');
 
 export function getPosts() {
@@ -111,7 +111,7 @@ function getEventsFulfilledAction(events) {
 }
 
 // Add comments action creators
-export function addToComments(postId, stars, text, user) {
+export function addToComments(postId, stars, text, user, userUid) {
 	return dispatch => {
 		dispatch(addToCommentsRequestedAction());
 		const commentId = uid()
@@ -120,13 +120,14 @@ export function addToComments(postId, stars, text, user) {
 		  stars,
 		  text,
 		  user,
+		  userUid,
 		  commentId
 		})
 		.then(() => {
 			dispatch(addToCommentsFulfilledAction({
 				stars,
 				text,
-				user 
+				user
 			}));
 		})
 		.catch((error) => {
@@ -157,6 +158,7 @@ function addToCommentsFulfilledAction(comment) {
 // Add events action creators
 export function addToEvents(name, location_code, category, time, description) {
 	return dispatch => {
+		console.log("this is addToEvents dasdasdbsajbsj");
 		dispatch(addToEventsRequestedAction());
 		const eventId = uid()
 		const eventRef = database.ref('/events/' + location_code + "/" + eventId);
@@ -237,4 +239,116 @@ function removeCommentFulfilledAction(commentInfo) {
     type: ActionTypes.RemoveCommentFulfilled,
     commentInfo
   };
+}
+
+
+
+//// register part;
+
+export function userRegisterRequest(userData) {
+  return dispatch => {
+    console.log("this is data ");
+    console.log(JSON.stringify(userData));
+    console.log("the error is from register Action");
+    console.log("we running without axios");
+    return axios.post('/api/users', userData);
+  }
+}
+
+// for user login part
+export function login(data) {
+  return dispatch => {
+    dispatch(loginAction());
+  }
+}
+function loginAction(user){
+	return {
+		type: ActionTypes.LoginAction,
+		user
+	}
+}
+/// for user registration part
+export function addToUsers(user) {
+  console.log("we are running addToUsers in actionCreators");
+	console.log(JSON.stringify(user));
+	return dispatch => {
+      console.log("add to users ??????");
+			dispatch(addToUsersRequestedAction());
+      console.log("dasodhasiodjasidasdioio");
+			const userID = uid();
+			const userRef = database.ref('users/' + userID);
+			userRef.set({
+			  username: user.username,
+			  password: user.password,
+			  email: user.email,
+			})
+			.then(() => {
+				dispatch(addToUsersFulfilledAction({
+					username,
+					password,
+					email,
+				}));
+			})
+			.catch((error) => {
+				dispatch(addToUsersRejectedAction());
+			});
+	}
+}
+
+function addToUsersRequestedAction() {
+  return {
+    type: ActionTypes.AddToEventsRequested
+  };
+}
+
+function addToUsersRejectedAction() {
+  return {
+    type: ActionTypes.AddToEventsRejected
+  }
+}
+
+function addToUsersFulfilledAction(user) {
+  return {
+    type: ActionTypes.AddToUsersFulfilled,
+    user
+  }
+}
+
+//// login part
+
+export function getUsers() {
+	return dispatch => {
+		dispatch(getUsersRequestedAction());
+		return database.ref('/users/').once('value', snap => {
+			const users = snap.val();
+			console.log(JSON.stringify(users));
+			console.log('Snapped users right here', users);
+			dispatch(getUsersFulfilledAction(users))
+		}).catch((error) => {
+			console.log(error);
+			dispatch(getUsersRejectedAction());
+		});
+	}
+}
+
+function getUsersRequestedAction() {
+	console.log("Dispatching ", ActionTypes.GetUsersRequested)
+	return {
+		type: ActionTypes.GetUsersRequested
+	};
+}
+
+function getUsersRejectedAction() {
+	console.log("Dispatching", ActionTypes.GetUsersRejected)
+	return {
+		type: ActionTypes.GetUsersRejected
+	};
+}
+
+function getUsersFulfilledAction(events) {
+	console.log("Dispatching", ActionTypes.GetUsersFulfilled)
+	return {
+		type: ActionTypes.GetUsersFulfilled,
+		events
+	};
 }

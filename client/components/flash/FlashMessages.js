@@ -1,6 +1,14 @@
 import React from 'react';
 import classnames from 'classnames';
 
+
+var flashStyle = {
+  position : "absolute",
+  bottom : "0",
+  height : "40px",
+  marginTop : "40px"
+}
+
 class FlashMessages extends React.Component {
   constructor(props) {
     super(props);
@@ -14,8 +22,8 @@ class FlashMessages extends React.Component {
     const {id, type, text} = this.props.message;
     return (
 
-      <div className = {classnames('alert', {
-        'alert-sucess': type ==='success',
+      <div style={flashStyle} className = {classnames('alert', {
+        'alert-success': type ==='success',
         'alert-danger': type ==='error',
       })}>
           <button className="close" onClick = {this.onClick}>

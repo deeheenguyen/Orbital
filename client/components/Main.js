@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 import FlashMessagesList from './flash/FlashMessagesList.js';
+import firebase, { auth, database } from '../actions/database.js';
+
 var bgColors = { "Default": "#81b71a",
                     "Blue": "#00B1E1",
                     "Cyan": "#37BC9B",
@@ -8,21 +10,39 @@ var bgColors = { "Default": "#81b71a",
                     "Red": "#E9573F",
                     "Yellow": "#F6BB42",
 };
-var myCSS = {
-	  color: "red",
-		textAlign: "center",
-    marginTop: '5px',
-};
 
 var loginStyle = {
-	textAlign: "right",
+	textAlign: "right"
+}
+
+var eventStyle = {
+  textAlign: "left"
 }
 
 class Main extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null
+    }
+    this.handleEvents = this.handleEvents.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
 	componentDidMount() {
-    	this.props.getPosts();
-    	this.props.getComments();
-      this.props.getEvents();
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+          this.setState({ user });
+          console.log("User has signed in or up"); 
+          console.log(user);
+          console.log(this.state);
+        }
+      });
+  	this.props.getPosts();
+  	this.props.getComments();
+    this.props.getEvents();
+    console.log("Main state", this.state);
   }
   static get contextTypes(){
     return {
@@ -39,20 +59,42 @@ class Main extends React.Component {
     console.log("this is register");
     this.context.router.push('/register');
   }
+  handleLogout(event){
+    event.preventDefault();
+    auth.signOut()
+    .then(() => {
+      this.setState({
+        user: null
+      });
+      this.context.router.push('/');
+    });
+  }
   handleEvents(event) {
     event.preventDefault();
     console.log("Route to /events");
     this.context.router.push('/events');
   }
 	render() {
-    const hasUser = true;
+    console.log("User:", this.state.user);
 		return (
-			<div style= {myCSS}>
-        <p style= {loginStyle}>
-          <button type="submit" className="button" onClick={this.handleEvents.bind(this)}> Campus Events </button>
-          {hasUser && <button type="submit" className="button" onClick={this.handleLogin.bind(this)}> Login </button>}
-            <button type="submit" className="button" onClick={this.handleRegister.bind(this)}> Register </button>
-        </p>
+			<div>
+        <div className="col-xs-6 text-left">
+          <div style={eventStyle}>
+            <button type="submit" className="button" onClick={this.handleEvents}> Campus Events </button>
+          </div>
+        </div>
+        <div className="col-xs-6 text-right">
+          <div style={loginStyle}>
+            {this.state.user?
+              <button type="submit" className="button" onClick={this.handleLogout}> Logout </button>
+            :
+              <div>
+                <button type="submit" className="button" onClick={this.handleLogin}> Login </button>
+                <button type="submit" className="button" onClick={this.handleRegister}> Register </button>
+              </div>
+            }
+          </div>
+        </div>
         <FlashMessagesList />
 				{ React.cloneElement(this.props.children, this.props) }
 			</div>

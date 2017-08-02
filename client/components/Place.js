@@ -3,6 +3,7 @@ import Photo from './Photo.js';
 import Comments from './Comments.js';
 import { Link, Router } from 'react-router';
 import Reactable from 'reactable';
+import firebase, { auth, database } from '../actions/database.js';
 
 var Table = Reactable.Table,
     Thead = Reactable.Thead,
@@ -13,6 +14,23 @@ var tableStyle = {
 }
 
 class Place extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+	      user: null
+	    }
+	}
+	componentDidMount() {
+		auth.onAuthStateChanged((user) => {
+			if (user) {
+			  	this.setState({ user });
+			} else {
+				this.setState({
+					user: null
+				});
+			}
+		});
+	}
 	render() {
 		console.log('Props from place', this.props);
 		const { postId } = this.props.params;
