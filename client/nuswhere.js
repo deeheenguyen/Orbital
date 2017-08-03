@@ -9,8 +9,10 @@ import Homepage from './components/Homepage.js';
 import Login from './components/Login/Login.js';
 import Register from './components/Register/Register.js';
 import Events from './components/Events/Events.js';
+
 import AddEventForm from './components/Events/AddEventForm.js';
 import Profile from './components/Profile/Profile.js';
+import UploadPhoto from './components/Post/UploadPhoto.js';
 
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
@@ -28,8 +30,8 @@ const router = (
 				<Route path="/upload" component={AddEventForm}></Route>
 				<Route path="/events" component={Events}></Route>
 				<Route path="/profile" component={Profile}></Route>
+				<Route path="/uploadPhoto" component = {UploadPhoto}></Route>
 			</Route>
-
 		</Router>
 	</Provider>
 )

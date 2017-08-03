@@ -1,5 +1,6 @@
 import React from 'react';
 import TextFieldGroup from '../common/TextFieldGroup.js';
+import {storage} from '../../actions/database.js';
 
 var headerStyle = {
   textAlign: 'centre',
@@ -11,11 +12,18 @@ var formStyle = {
   color: '#52686A',
 }
 
+
 class AddEventForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.createSelectItems = this.createSelectItems.bind(this);
+    this.handleUploadFile = this.handleUploadFile.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
+    this.state = {
+      file: ' ',
+      imagePreviewUrl: ' ',
+    };
   }
   createSelectItems() {
     let items = [];
@@ -37,15 +45,68 @@ class AddEventForm extends React.Component {
       this.props.addToEvents(name, location_code, category, time, description);
       this.refs.eventForm.reset();
     }
-    this.context.router.push('/events');
+      this.handleUploadFile();
+    console.log("is this really go back");
+    this.context.router.goBack();
+    console.log("yes it is");
   }
+
   static get contextTypes() {
     return {
       router: React.PropTypes.object.isRequired,
     };
   }
+
+  handleUploadFile() {
+    console.log("Uploading the file");
+    var fileName = this.state.file.name;
+    var storageRef =  storage.ref('image/' + fileName);
+    var uploadTask = storageRef.put(this.state.file);
+    // Register three observers:
+    // 1. 'state_change' obsever, called any time the state changes
+    // 2.'error obsever, called on failure'
+    // 3. completion obsever called on sucessfull completion
+    uploadTask.on('state_changed',
+     function(snapshot) {
+      // observer state change events such as progress, pause, and resumt
+      // see below for more detail
+    }, function(error) {
+      //handle unsuccessful uploads
+    }, function() {
+      // handle successful uploads on complete
+      // For instance, get the download URL:https://firebasestorage.googleapis/com/...
+      var downloadURL = uploadTask.snapshot.downloadURL;
+      console.log(downloadURL);
+    });
+  }
+
+  handleImageChange(e){
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    console.log(file);
+
+    reader.onloadend = () => {
+      console.log("this is reader.results");
+      console.log(reader.result);
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    }
+
+    reader.readAsDataURL(file)
+  }
+
+
   render() {
     console.log(this.props);
+    let {imagePreviewUrl} = this.state;
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = (<img src={imagePreviewUrl}/>);
+    }
     return (
       <div>
         <h1 style={headerStyle}>Upload Events</h1>
@@ -77,6 +138,11 @@ class AddEventForm extends React.Component {
               <li>
                   <label>Description </label>
                   <textarea ref="description" className="field-long field-textarea"></textarea>
+              </li>
+              <li>
+                  <label>Upload image </label>
+                   <input type="file" onChange = {this.handleImageChange}/>
+                    {$imagePreview}
               </li>
               <li>
                   <input type="submit" value="Submit" />
