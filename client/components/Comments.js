@@ -3,6 +3,7 @@ import Ratings from './Ratings.js';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import firebase, { auth, database } from '../actions/database.js';
 import { browserHistory } from 'react-router'
+const uidPackage = require('uid');
 
 var suggestLoginSignupStyle = {
 	fontSize: "1.5rem"
@@ -97,7 +98,11 @@ class Comments extends React.Component {
 		const { rating } = this.state;
 		const { uid } = this.state.user;
 		if (rating && author && comment) {
-			this.props.addToComments(postId, rating, comment, author, uid);
+			const commentId = uidPackage();
+			const newsId = uidPackage(); 
+			const timeStamp = Date.now();
+			this.props.addToComments(commentId, postId, rating, comment, author, uid);
+			this.props.addToNewsFeed(uid, newsId, "comment", timeStamp, {commentId, postId, rating, comment});
 			this.refs.commentForm.reset();
 			this.setState({
 				lastRating: rating,

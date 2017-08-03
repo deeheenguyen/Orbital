@@ -24,11 +24,14 @@ class Profile extends React.Component {
 			user: null,
 			edit: false,
 			userInfo: null,
-			displayName: ""
+			userFeed: null,
+			displayName: "",
+			posts: {}
 		}
 		this.handleEdit = this.handleEdit.bind(this);
 		this.handleDiscard = this.handleDiscard.bind(this);
 		this.handleSave = this.handleSave.bind(this);
+		this.renderNews = this.renderNews.bind(this);
 	}
 	componentDidMount() {
 		auth.onAuthStateChanged((user) => {
@@ -41,6 +44,18 @@ class Profile extends React.Component {
 							course: updatedProfile.course,
 							intro: updatedProfile.intro
 						}
+					})
+				});
+				database.ref('/feeds/' + user.uid).on('value', (snap) => {
+					const updatedFeed = snap.val();
+					this.setState({
+						userFeed: updatedFeed
+					})
+				});
+				database.ref('/posts').on('value', (snap) => {
+					const updatedPosts = snap.val();
+					this.setState({
+						posts: updatedPosts
 					})
 				});
 	        }
@@ -56,11 +71,9 @@ class Profile extends React.Component {
 	}
 	handleSave(event) {
 		event.preventDefault();
-		console.log("This is save");
 		const intro = this.refs.intro.value;
 		const course = this.refs.course.value;
 		const displayName = this.refs.username.value;
-		console.log("intro and course", intro, course)
 		if (this.state.user !== null) {
 			this.props.updateUser(this.state.user.uid, course, intro);
 			this.state.user.updateProfile({
@@ -80,18 +93,97 @@ class Profile extends React.Component {
 			this.setState({ edit: false })
 	    }
 	}
+	renderNews(news, i) {
+		if (this.state.posts !== null) {
+			console.log("posts", this.state.posts)
+			const { timeStamp } = news; 
+			switch (news.type) {
+				case "comment": {
+					const { comment, postId, rating } = news.obj;
+					console.log("postId", postId);
+					console.log("post", this.state.posts[postId]);
+					const caption = this.state.posts[postId].caption;
+					return (
+						<div className="panel panel-default" key={i}>
+			                <div className="panel-body">
+			                    <div className="pull-left">
+			                        <a href="#">
+			                            <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style={mediaObjectStyle}/>
+			                        </a>
+			                    </div>
+			                    <h4><a href="#" style={{textDecoration:"none"}}><strong>{this.state.displayName}</strong></a> reviewed { caption } <small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 42 minutes ago</i></a></small></small></h4>
+			                    <hr/>
+			                    <div className="post-content">
+			                        <div className="panel panel-default">
+			                            <div className="panel-body">
+			                                <div className="post-content">
+			                                    <strong>★</strong>
+												{rating}		
+			                                    <p>{comment}</p>
+			                            	</div>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+					)
+				}
+				case "addEvent": {
+					const { category, description, location_code, name, time } = news.obj;
+					const caption = this.state.posts[location_code].caption;
+					return (
+						<div className="panel panel-default" key={i}>
+			                <div className="panel-body">
+			                    <div className="pull-left">
+			                        <a href="#">
+			                            <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style={mediaObjectStyle}/>
+			                        </a>
+			                    </div>
+			                    <h4><a href="#" style={{textDecoration:"none"}}><strong>{this.state.displayName}</strong></a> added new event at { caption } <small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 42 minutes ago</i></a></small></small></h4>
+			                    <hr/>
+			                    <div className="post-content">
+			                        <div className="panel panel-default">
+			                            <div className="panel-body">
+			                                <div className="post-content">
+			                                    <p>{name}</p>
+			                                    <p>{category}</p>		
+			                                    <p>{time}</p>
+			                                    <p>{description}</p>
+			                            	</div>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+					)
+				}
+				default:
+					return (
+						<div></div>
+					);
+			}
+		}
+		return (
+			<div></div>
+		);
+	}
 	render() {
 		var displayName = "";
 		var intro = "";
 		var email = "";
 		var course = "";
-		console.log("Profile state", this.state);
+		var userFeed = {};
+		console.log("User feed", this.state.userFeed);
+		console.log("Posts", this.state.posts);
 		if (this.state.user !== null && this.state.userInfo !== null) {
 			displayName = this.state.displayName;
 			intro = this.state.userInfo.intro;
 			email = this.state.user.email;
 			course = this.state.userInfo.course;
 		}
+		if (this.state.userFeed !== null) {
+			userFeed = this.state.userFeed;
+		} 
 		return (
 			<div>
 				<h1>
@@ -147,6 +239,7 @@ class Profile extends React.Component {
 				            </div>
 				        </div>
 				        <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+				        	{Object.values(userFeed).map(this.renderNews)}
 				            <div className="panel panel-default">
 				                <div className="panel-body">
 				                    <div className="pull-left">
@@ -178,29 +271,6 @@ class Profile extends React.Component {
 				                        <p>Simple post content example.</p>
 				                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
 				                    </div>
-				                    <hr/>
-				                    <div>
-				                        <div className="pull-right btn-group-xs">
-				                            <a className="btn btn-default btn-xs"><i className="fa fa-heart" aria-hidden="true"></i> Like</a>
-				                            <a className="btn btn-default btn-xs"><i className="fa fa-retweet" aria-hidden="true"></i> Reshare</a>
-				                            <a className="btn btn-default btn-xs"><i className="fa fa-comment" aria-hidden="true"></i> Comment</a>
-				                        </div>
-				                        <div className="pull-left">
-				                            <p className="text-muted" style={{marginLeft:"5px"}}><i className="fa fa-globe" aria-hidden="true"></i> Public</p>
-				                        </div>
-				                        <br/>
-				                    </div>
-				                    <hr/>
-				                    <div className="media">
-				                        <div className="pull-left">
-				                            <a href="#">
-				                                <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="35px" height="35px" style={{marginLeft:"3px", marginRight:"-5px"}}/>
-				                            </a>
-				                        </div>
-				                        <div className="media-body">
-				                            <textarea className="form-control" rows="1" placeholder="Comment"></textarea>
-				                        </div>
-				                    </div>
 				                </div>
 				            </div>
 				            <div className="panel panel-default">
@@ -211,64 +281,17 @@ class Profile extends React.Component {
 				                        </a>
 				                    </div>
 				                    <h4><a href="#" style={{textDecoration:"none"}}><strong>{displayName}</strong></a> – <small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 42 minutes ago</i></a></small></small></h4>
-				                    <span>
-				                        <div className="navbar-right">
-				                            <div className="dropdown">
-				                                <button className="btn btn-link btn-xs dropdown-toggle" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				                                    <i className="fa fa-cog" aria-hidden="true"></i>
-				                                    <span className="caret"></span>
-				                                </button>
-				                                <ul className="dropdown-menu" aria-labelledby="dd1" style={{float: "right"}}>
-				                                    <li><a href="#"><i className="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
-				                                    <li role="separator" className="divider"></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
-				                                </ul>
-				                            </div>
-				                        </div>
-				                    </span>
 				                    <hr/>
 				                    <div className="post-content">
 				                        <div className="panel panel-default">
 				                            <div className="panel-body">
-				                                <div className="pull-left">
-				                                    <a href="#">
-				                                        <img className="media-object img-circle" src="https://diaspote.org/uploads/images/thumb_large_283df6397c4db3fe0344.png" width="50px" height="50px" style={mediaObjectStyle}/>
-				                                    </a>
-				                                </div>
-				                                <h4><a href="#" style={{textDecoration:"none"}}><strong>✪ SтeғOғғιcιel ✪ ツ</strong></a> – <small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> about 15 hours ago</i></a></small></small></h4>
-				                                <hr/>
 				                                <div className="post-content">
-				                                    Reshare post example.
+				                                    <strong>★</strong>
+													5		
 				                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
 				                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
 				                                </div>
 				                            </div>
-				                        </div>
-				                    </div>
-				                    <hr/>
-				                    <div>
-				                        <div className="pull-right btn-group-xs">
-				                            <a className="btn btn-default btn-xs"><i className="fa fa-heart" aria-hidden="true"></i> Like</a>
-				                            <a className="btn btn-default btn-xs"><i className="fa fa-retweet" aria-hidden="true"></i> Reshare</a>
-				                            <a className="btn btn-default btn-xs"><i className="fa fa-comment" aria-hidden="true"></i> Comment</a>
-				                        </div>
-				                        <div className="pull-left">
-				                            <p className="text-muted" style={{marginLeft:"5px"}}><i className="fa fa-globe" aria-hidden="true"></i> Public</p>
-				                        </div>
-				                        <br/>
-				                    </div>
-				                    <hr/>
-				                    <div className="media">
-				                        <div className="pull-left">
-				                            <a href="#">
-				                                <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="35px" height="35px" style={{marginLeft:"3px", marginRight:"-5px"}}/>
-				                            </a>
-				                        </div>
-				                        <div className="media-body">
-				                            <textarea className="form-control" rows="1" placeholder="Comment"></textarea>
 				                        </div>
 				                    </div>
 				                </div>
@@ -307,11 +330,6 @@ class Profile extends React.Component {
 				                    </div>
 				                    <hr/>
 				                    <div>
-				                        <div className="pull-right btn-group-xs">
-				                            <a className="btn btn-default btn-xs"><i className="fa fa-heart" aria-hidden="true"></i> Like</a>
-				                            <a className="btn btn-default btn-xs"><i className="fa fa-retweet" aria-hidden="true"></i> Reshare</a>
-				                            <a className="btn btn-default btn-xs"><i className="fa fa-comment" aria-hidden="true"></i> Comment</a>
-				                        </div>
 				                        <div className="pull-left">
 				                            <p className="text-muted" style={{marginLeft:"5px"}}><i className="fa fa-globe" aria-hidden="true"></i> Public <strong>via mobile</strong></p>
 				                        </div>
@@ -366,10 +384,6 @@ class Profile extends React.Component {
 				                    </div>
 				                    <hr/>
 				                    <div>
-				                        <div className="pull-right btn-group-xs">
-				                            <a className="btn btn-default btn-xs"><i className="fa fa-heart" aria-hidden="true"></i> Like</a>
-				                            <a className="btn btn-default btn-xs"><i className="fa fa-comment" aria-hidden="true"></i> Comment</a>
-				                        </div>
 				                        <div className="pull-left">
 				                            <p className="text-muted" style={{marginLeft:"5px"}}><i className="fa fa-user-secret" aria-hidden="true"></i> Limited</p>
 				                        </div>

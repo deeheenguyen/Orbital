@@ -7,6 +7,7 @@ import comments from './comments.js';
 import events from './events.js';
 import flashMessages from './flashMessages.js';
 import users from './users.js';
-const rootReducer = combineReducers({posts, comments, events, flashMessages, users, routing: routerReducer});
+import news from './news.js';
+const rootReducer = combineReducers({posts, comments, events, flashMessages, users, news, routing: routerReducer});
 
 export default rootReducer;

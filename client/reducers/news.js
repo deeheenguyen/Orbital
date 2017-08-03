@@ -1,31 +1,31 @@
 import ActionTypes from '../constants/action_types.js';
 
-function users(state = [], action) {
+function news(state = [], action) {
 	switch (action.type) {
-		case ActionTypes.UpdateUserRequested: {
+      	case ActionTypes.AddToNewsFeedRequested: {
 			return Object.assign({}, state, {
 				inProgress: true,
 				error: '',
 				success: ''
 			});
 	    }
-	    case ActionTypes.UpdateUserRejected: {
+	    case ActionTypes.AddToNewsFeedRejected: {
 			return Object.assign({}, state, {
 				inProgress: false,
-				error: 'Error in updating user.',
+				error: 'Error in adding new news.',
 			});
 	    }
-	    case ActionTypes.UpdateUserFulfilled: {
+	    case ActionTypes.AddToNewsFeedFulfilled: {
 			const newState = Object.assign({}, state, {
 				inProgress: false,
-				success: 'User update successfully'
+				success: 'New news added.'
 				});
 			return newState;
 	    }
-	    default:
+    	default:
 			return state;
 	}
 	return state;
 }
 
-export default users;
+export default news;

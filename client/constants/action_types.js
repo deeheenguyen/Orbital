@@ -30,9 +30,9 @@ const ActionTypes = {
 	UpdateUserRejected: 'UPDATE_USER_REJECTED',
 	UpdateUserFulfilled: 'UPDATE_USER_FULFILLED',
 
-	GetUserInfoRequested: 'GET_USER_INFO_REQUESTED',
-	GetUserInfoRejectedA: 'GET_USER_INFO_REJECTED',
-	GetUserInfoFulfilled: 'GET_USER_INFO_FULFILLED'
+	AddToNewsFeedRequested: 'ADD_TO_NEWS_FEED_REQUESTED',
+	AddToNewsFeedRejected: 'ADD_TO_NEWS_FEED_REJECTED',
+	AddToNewsFeedFulfilled: 'ADD_TO_NEWS_FEED_FULFILLED'
 }
 
 export default ActionTypes;

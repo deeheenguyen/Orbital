@@ -1,6 +1,8 @@
 import React from 'react';
 import TextFieldGroup from '../common/TextFieldGroup.js';
 import {storage} from '../../actions/database.js';
+import firebase, { auth, database } from '../../actions/database.js';
+const uidPackage = require('uid');
 
 var headerStyle = {
   textAlign: 'centre',
@@ -25,6 +27,17 @@ class AddEventForm extends React.Component {
       imagePreviewUrl: ' ',
     };
   }
+  componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+          this.setState({ user });
+      } else {
+        this.setState({
+          user: null
+        });
+      }
+    });
+  }
   createSelectItems() {
     let items = [];
     const { posts } = this.props
@@ -41,8 +54,13 @@ class AddEventForm extends React.Component {
     const category = this.refs.category.value;
     const time = this.refs.time.value;
     const description = this.refs.description.value;
-    if (name && location_code && category && time) {
-      this.props.addToEvents(name, location_code, category, time, description);
+    if (name && location_code && category && time && this.state.userId !== null) {
+      const eventId = uidPackage();
+      const newsId = uidPackage(); 
+      const timeStamp = Date.now();
+      const { uid } = this.state.user;
+      this.props.addToEvents(eventId, uid, name, location_code, category, time, description);
+      this.props.addToNewsFeed(uid, newsId, "addEvent", timeStamp, {eventId, name, location_code, category, time, description})
       this.refs.eventForm.reset();
     }
       this.handleUploadFile();

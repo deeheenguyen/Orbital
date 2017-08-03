@@ -1,6 +1,5 @@
 import ActionTypes from '../constants/action_types.js';
 import firebase, { auth, database } from './database.js';
-const uid = require('uid');
 
 export function getPosts() {
 	return dispatch => {
@@ -111,10 +110,9 @@ function getEventsFulfilledAction(events) {
 }
 
 // Add comments action creators
-export function addToComments(postId, stars, text, user, userUid) {
+export function addToComments(commentId, postId, stars, text, user, userUid) {
 	return dispatch => {
 		dispatch(addToCommentsRequestedAction());
-		const commentId = uid()
 		const postCommentsRef = database.ref('/comments/' + postId + "/" + commentId);
 		postCommentsRef.set({
 		  stars,
@@ -155,12 +153,11 @@ function addToCommentsFulfilledAction(comment) {
   };
 }
 
-function addToNewsFeed(userUid, type, timeStamp, obj) {
+export function addToNewsFeed(userUid, newsId, type, timeStamp, obj) {
 	return dispatch => {
 		dispatch(addToNewsFeedRequestedAction());
-		const newsId = uid()
 		const newsRef = database.ref('/feeds/' + userUid + "/" + newsId);
-		newsId.set({
+		newsRef.set({
 			type,
 			timeStamp,
 			obj
@@ -198,16 +195,16 @@ function addToNewsFeedFulfilledAction(news) {
 }
 
 // Add events action creators
-export function addToEvents(name, location_code, category, time, description) {
+export function addToEvents(eventId, userUid, name, location_code, category, time, description) {
 	return dispatch => {
 		dispatch(addToEventsRequestedAction());
-		const eventId = uid()
 		const eventRef = database.ref('/events/' + location_code + "/" + eventId);
 		eventRef.set({
 		  name,
 		  category,
 		  time,
 		  description,
+		  userUid,
 		  eventId
 		})
 		.then(() => {
@@ -293,25 +290,6 @@ export function getUserInfo(userUid) {
 			console.log(error);
 			dispatch(getUserInfoRejectedAction());
 		});
-	}
-}
-
-function getUserInfoRequestedAction() {
-	return {
-		type: ActionTypes.GetUserInfoRequested
-	}
-}
-
-function getUserInfoRejectedAction() {
-	return {
-		type: ActionTypes.GetUserInfoRejected
-	}
-}
-
-function getUserInfoFulfilledAction(userInfo) {
-	return {
-		type: ActionTypes.GetUserInfoFulfilled,
-		userInfo
 	}
 }
 
