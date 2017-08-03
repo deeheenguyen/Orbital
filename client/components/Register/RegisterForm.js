@@ -21,40 +21,7 @@ class RegisterForm extends React.Component {
       passwordConfirmation: '',
       errors: {},
     }
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
-  }
-
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value});
-  }
-  isValid(){
-    const {errors, isValid} = validateInput(this.state);
-    if (!isValid){
-      this.setState({errors});
-    }
-    return isValid;
-  }
-  onSubmit(e){
-    e.preventDefault();
-    if (this.isValid()) {
-      this.setState({errors : {}});
-      this.props.userRegisterRequest(this.state).then(
-        () => {
-          this.props.addFlashMessage({
-            type: 'success',
-            text: 'You signed up successfully. Welcome!'
-          });
-          console.log("add to users in register form");
-          console.log(JSON.stringify(this.state));
-          this.props.addToUsers(this.state);
-          this.context.router.push('/');
-        },
-        ({ data }) => {this.setState({errors: data})}
-      );
-      console.log("we are running this");
-    }
   }
   handleRegister(event) {
     event.preventDefault();
@@ -138,9 +105,7 @@ class RegisterForm extends React.Component {
 }
 
 RegisterForm.propTypes = {
-  userRegisterRequest: React.PropTypes.func.isRequired,
   addFlashMessage: React.PropTypes.func.isRequired,
-  addToUsers: React.PropTypes.func.isRequired,
 }
 RegisterForm.contextTypes = {
   router: React.PropTypes.object.isRequired

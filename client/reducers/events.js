@@ -15,7 +15,6 @@ function events(state = [], action) {
 	        	error: 'Error in getting events.',
 	      	});
 	    case ActionTypes.GetEventsFulfilled:
-	    	console.log("reached");
 	    	var newState = Object.assign({}, state, {
 		        inProgress: false,
 		        success: 'Got events.',

@@ -29,14 +29,12 @@ class Main extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleProfile = this.handleProfile.bind(this);
   }
 	componentDidMount() {
     auth.onAuthStateChanged((user) => {
         if (user) {
           this.setState({ user });
-          console.log("User has signed in or up"); 
-          console.log(user);
-          console.log(this.state);
         }
       });
   	this.props.getPosts();
@@ -74,6 +72,11 @@ class Main extends React.Component {
     console.log("Route to /events");
     this.context.router.push('/events');
   }
+  handleProfile(event) {
+    event.preventDefault();
+    console.log("Route to /profile");
+    this.context.router.push('/profile');
+  }
 	render() {
     console.log("User:", this.state.user);
 		return (
@@ -86,7 +89,10 @@ class Main extends React.Component {
         <div className="col-xs-6 text-right">
           <div style={loginStyle}>
             {this.state.user?
-              <button type="submit" className="button" onClick={this.handleLogout}> Logout </button>
+              <div>
+                <button type="submit" className="button" onClick={this.handleProfile}> Profile </button>
+                <button type="submit" className="button" onClick={this.handleLogout}> Logout </button>
+              </div>
             :
               <div>
                 <button type="submit" className="button" onClick={this.handleLogin}> Login </button>

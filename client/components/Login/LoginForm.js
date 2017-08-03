@@ -19,8 +19,6 @@ class LoginForm extends React.Component {
         password: '',
         errors: {},
       }
-      this.onChange = this.onChange.bind(this);
-      this.onSubmit = this.onSubmit.bind(this);
       this.handleLogin = this.handleLogin.bind(this);
     }
     isValid() {
@@ -43,24 +41,6 @@ class LoginForm extends React.Component {
           });
         this.context.router.push('/');
       });
-    }
-    onChange(e) {
-      this.setState({[e.target.name]: e.target.value});
-    }
-
-    onSubmit(e) {
-      e.preventDefault();
-      console.log(JSON.stringify(this.state) + "this is state of login");
-      console.log("we are running LoginForm");
-      if (this.isValid()) {
-        this.setState({ errors: {}});
-        // will change the fucntion login first
-
-        this.props.login(this.state).then(
-          (res) => this.context.router.push('/'),
-          (err) => this.setState({ errors: err.response.data.errors})
-        );
-      }
     }
     handleLogin(event) {
       event.preventDefault();

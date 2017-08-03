@@ -137,28 +137,69 @@ export function addToComments(postId, stars, text, user, userUid) {
 }
 
 function addToCommentsRequestedAction() {
-  return {
-    type: ActionTypes.AddToCommentsRequested
-  };
+	return {
+		type: ActionTypes.AddToCommentsRequested
+	};
 }
 
 function addToCommentsRejectedAction() {
-  return {
-    type: ActionTypes.AddToCommentsRejected
-  }
+	return {
+		type: ActionTypes.AddToCommentsRejected
+	}
 }
 
 function addToCommentsFulfilledAction(comment) {
   return {
     type: ActionTypes.AddToCommentsFulfilled,
-    commentId
+    comment
   };
+}
+
+function addToNewsFeed(userUid, type, timeStamp, obj) {
+	return dispatch => {
+		dispatch(addToNewsFeedRequestedAction());
+		const newsId = uid()
+		const newsRef = database.ref('/feeds/' + userUid + "/" + newsId);
+		newsId.set({
+			type,
+			timeStamp,
+			obj
+		})
+		.then(() => {
+			dispatch(addToNewsFeedFulfilledAction({
+				type,
+				timeStamp,
+				obj
+			}));
+		})
+		.catch((error) => {
+			dispatch(addToNewsFeedRejectedAction());
+		});
+	}
+}
+
+function addToNewsFeedRequestedAction() {
+	return {
+		type: ActionTypes.AddToNewsFeedRequested
+	}
+}
+
+function addToNewsFeedRejectedAction() {
+	return {
+		type: ActionTypes.AddToNewsFeedRejected
+	}
+}
+
+function addToNewsFeedFulfilledAction(news) {
+	return {
+		type: Actiontypes.AddToNewsFeedFulfilled,
+		news
+	}
 }
 
 // Add events action creators
 export function addToEvents(name, location_code, category, time, description) {
 	return dispatch => {
-		console.log("this is addToEvents dasdasdbsajbsj");
 		dispatch(addToEventsRequestedAction());
 		const eventId = uid()
 		const eventRef = database.ref('/events/' + location_code + "/" + eventId);
@@ -198,11 +239,81 @@ function addToEventsRejectedAction() {
 function addToEventsFulfilledAction(event) {
   return {
     type: ActionTypes.AddToEventsFulfilled,
-    commentId
+    event
   };
 }
 
+export function updateUser(userUid, course, intro) {
+	return dispatch => {
+		dispatch(updateUserRequestedAction());
+		const userRef = database.ref('users/' + userUid);
+		userRef.set({
+			course,
+			intro
+		})
+		.then(() => {
+			dispatch(updateUserFulfilledAction({
+				course,
+				intro
+			}));
+		})
+		.catch((error) => {
+			dispatch(updateUserRejectedAction());
+		});
+	}
+}
 
+function updateUserRequestedAction() {
+	return {
+		type: ActionTypes.UpdateUserRequested
+	}
+}
+
+function updateUserRejectedAction() {
+	return {
+		type: ActionTypes.UpdateUserRejected
+	}
+}
+
+function updateUserFulfilledAction(user) {
+	return {
+		type: ActionTypes.UpdateUserFulfilled,
+		user
+	}
+}
+
+export function getUserInfo(userUid) {
+	return dispatch => {
+		dispatch(getEventsRequestedAction());
+		return database.ref('/users/' + userUid).once('value', snap => {
+			const userInfo = snap.val();
+			console.log('Snapped user info', userInfo);
+			dispatch(getUserInfoFulfilledAction(userInfo))
+		}).catch((error) => {
+			console.log(error);
+			dispatch(getUserInfoRejectedAction());
+		});
+	}
+}
+
+function getUserInfoRequestedAction() {
+	return {
+		type: ActionTypes.GetUserInfoRequested
+	}
+}
+
+function getUserInfoRejectedAction() {
+	return {
+		type: ActionTypes.GetUserInfoRejected
+	}
+}
+
+function getUserInfoFulfilledAction(userInfo) {
+	return {
+		type: ActionTypes.GetUserInfoFulfilled,
+		userInfo
+	}
+}
 
 // Remove comments action creators
 export function removeComment(postId, commentId) {
@@ -241,114 +352,15 @@ function removeCommentFulfilledAction(commentInfo) {
   };
 }
 
-
-
-//// register part;
-
-export function userRegisterRequest(userData) {
-  return dispatch => {
-    console.log("this is data ");
-    console.log(JSON.stringify(userData));
-    console.log("the error is from register Action");
-    console.log("we running without axios");
-    return axios.post('/api/users', userData);
-  }
-}
-
-// for user login part
-export function login(data) {
-  return dispatch => {
-    dispatch(loginAction());
-  }
-}
-function loginAction(user){
+export function addFlashMessage(message){
 	return {
-		type: ActionTypes.LoginAction,
-		user
+		type: ActionTypes.AddFlashMessage,
+		message
 	}
 }
-/// for user registration part
-export function addToUsers(user) {
-  console.log("we are running addToUsers in actionCreators");
-	console.log(JSON.stringify(user));
-	return dispatch => {
-      console.log("add to users ??????");
-			dispatch(addToUsersRequestedAction());
-      console.log("dasodhasiodjasidasdioio");
-			const userID = uid();
-			const userRef = database.ref('users/' + userID);
-			userRef.set({
-			  username: user.username,
-			  password: user.password,
-			  email: user.email,
-			})
-			.then(() => {
-				dispatch(addToUsersFulfilledAction({
-					username,
-					password,
-					email,
-				}));
-			})
-			.catch((error) => {
-				dispatch(addToUsersRejectedAction());
-			});
+export function deleteFlashMessage(id) {
+	return {
+		type: ActionTypes.DeleteFlashMessage,
+		id
 	}
-}
-
-function addToUsersRequestedAction() {
-  return {
-    type: ActionTypes.AddToEventsRequested
-  };
-}
-
-function addToUsersRejectedAction() {
-  return {
-    type: ActionTypes.AddToEventsRejected
-  }
-}
-
-function addToUsersFulfilledAction(user) {
-  return {
-    type: ActionTypes.AddToUsersFulfilled,
-    user
-  }
-}
-
-//// login part
-
-export function getUsers() {
-	return dispatch => {
-		dispatch(getUsersRequestedAction());
-		return database.ref('/users/').once('value', snap => {
-			const users = snap.val();
-			console.log(JSON.stringify(users));
-			console.log('Snapped users right here', users);
-			dispatch(getUsersFulfilledAction(users))
-		}).catch((error) => {
-			console.log(error);
-			dispatch(getUsersRejectedAction());
-		});
-	}
-}
-
-function getUsersRequestedAction() {
-	console.log("Dispatching ", ActionTypes.GetUsersRequested)
-	return {
-		type: ActionTypes.GetUsersRequested
-	};
-}
-
-function getUsersRejectedAction() {
-	console.log("Dispatching", ActionTypes.GetUsersRejected)
-	return {
-		type: ActionTypes.GetUsersRejected
-	};
-}
-
-function getUsersFulfilledAction(events) {
-	console.log("Dispatching", ActionTypes.GetUsersFulfilled)
-	return {
-		type: ActionTypes.GetUsersFulfilled,
-		events
-	};
 }

@@ -127,7 +127,7 @@ class Comments extends React.Component {
 					onSubmit={this.handleSubmit}>
 						{user?
 							<div>
-								<input type="text" ref="author" value={user.displayName} disabled={true} placeholder="author"/>
+								<input type="text" ref="author" value={user.displayName} placeholder="author"/>
 								<input type="text" ref="comment" placeholder="comment"/>
 								<fieldset className="rate" onChange={this.setRatings}>
 								    <input type="radio" id="rating10" name="rating" value="10" /><label htmlFor="rating10" title="5 stars"></label>
