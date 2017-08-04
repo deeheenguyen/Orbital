@@ -60,14 +60,10 @@ class Place extends React.Component {
     };
   }
 	render() {
-		console.log('Props from place', this.props);
+    console.log('Props from place', this.props);
 		const { postId } = this.props.params;
-
-		const i = this.props.posts.findIndex(post);
-
-		if (this.props.posts == null || this.props.comments == null || this.props.events == null) {
-			return <div></div>
-		}
+		const i = this.props.posts.findIndex((post) =>
+			post.code === postId);
 		const post = this.props.posts[i];
 		const postComments = this.props.comments[postId] || [];
 		const events = this.props.events[postId];

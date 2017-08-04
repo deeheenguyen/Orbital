@@ -1,6 +1,19 @@
 import React from 'react';
 import {database} from '../../actions/database.js';
+import Image from './Image.js';
+import {Link, Router} from 'react-router';
 
+function snapshotToArray(snapshot) {
+    var returnArr = [];
+
+    snapshot.forEach(function(childSnapshot) {
+        var item = childSnapshot.val();
+        console.log("running in snapshot to array"  + item);
+        returnArr.push(item);
+    });
+    console.log(returnArr);
+    return returnArr;
+};
 
 class Gallery extends React.Component{
   constructor(props) {
@@ -8,29 +21,33 @@ class Gallery extends React.Component{
     this.state = {
       postId: this.props.location.query.postID,
       myPost: [],
+      arrayImage: [],
     };
   }
-  componentDidMount(){
+  componentWillMount(){
     var postId = this.props.location.query.postID;
-    database.ref('posts/' + postId).on('value', (snap) => {
-			const currentPosts = snap.val()
-			// get array comments' contents to easily render comment
-			console.log("this is in componentDidMount in the gallery" + JSON.stringify(currentPosts));
-			if (currentPosts!== null) {
-				var postContents = Object.values(currentPosts)
-			} else {
-				var postContents = []
-			}
-			this.setState({
-				myPost: postContents,
-			})
-  		});
-	}
+      database.ref('posts/' + postId + "/images/").on('value', (snap) => {
+           var data = snapshotToArray(snap);
+            console.log("my data is " + data);
+            this.setState({
+              arrayImage: data,
+            })
+      });
+    }
   render() {
+    console.log("we been testing in the gallery");
+    console.log("this is myPost" + JSON.stringify(this.state.myPost));
+    console.log("this is my arrayImage" + JSON.stringify(this.state.arrayImage));
     return (
-        <div className='photo-grid'>
-            <p>something here in the componentDidMount</p>
+      <div>
+        <h1>
+          <Link to="/">NUSWhere</Link>
+        </h1>
+        <div className="photo-grid">
+        {this.state.arrayImage.map((image, i) => <Image {...this.props}
+          key={i} image={image} />)}
         </div>
+      </div>
     );
   }
 }

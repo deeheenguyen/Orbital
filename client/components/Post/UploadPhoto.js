@@ -1,5 +1,7 @@
 import React from 'react';
-import {storage} from '../../actions/database.js';
+import {storage, database} from '../../actions/database.js';
+const uidPackage = require('uid');
+
 
 class UploadPhoto extends React.Component {
   constructor(props) {
@@ -14,8 +16,9 @@ class UploadPhoto extends React.Component {
   _handleSubmit(e) {
     e.preventDefault();
     console.log("Uploading the file");
+    const imageId = uidPackage();
     var fileName = this.state.file.name;
-    var storageRef =  storage.ref('Gallery/' + this.state.postID+ "/" + fileName);
+    var storageRef =  storage.ref('Gallery/' + this.state.postID+ "/" + imageId);
     var uploadTask = storageRef.put(this.state.file);
     // Register three observers:
     // 1. 'state_change' obsever, called any time the state changes
@@ -30,14 +33,20 @@ class UploadPhoto extends React.Component {
     }, function() {
       // handle successful uploads on complete
       // For instance, get the download URL:https://firebasestorage.googleapis/com/...
-      var downloadURL = uploadTask.snapshot.downloadURL;
-      console.log(downloadURL);
+      var downloadUrl = uploadTask.snapshot.downloadURL;
+      console.log(downloadUrl);
+      this.handlePushToDb(downloadUrl, imageId);
       alert("upload successfully");
-    });
-
+    }.bind(this));
+    /// this part will store the image URL into database
     this.context.router.goBack();
   }
-
+  handlePushToDb(url, imageId) {
+    var databaseRef = database.ref('/posts/' + this.state.postID + "/images/"+imageId);
+    databaseRef.set({
+      imageUrl: url,
+    })
+  }
   _handleImageChange(e) {
     e.preventDefault();
 
