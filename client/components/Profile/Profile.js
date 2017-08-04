@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Router } from 'react-router';
 import firebase, { auth, database } from '../../actions/database.js';
+const _ = require('lodash');
 
 var navbarBrandStyle = {
 	marginRight: "-8px",
@@ -15,6 +16,39 @@ var userAvatarStyle = {
 var mediaObjectStyle = {
 	marginRight: "8px",
 	marginTop: "-5px"
+}
+
+function getElapsedTime(timeStamp) {
+	// Set the unit values in milliseconds.  
+	var msecPerMinute = 1000 * 60;  
+	var msecPerHour = msecPerMinute * 60;  
+	var msecPerDay = msecPerHour * 24;  
+
+	// Set a date and get the milliseconds  
+	var date = new Date(timeStamp);  
+	var dateMsec = date.getTime();  
+
+	// Get the difference in milliseconds.  
+	var interval = Date.now() - dateMsec;  
+
+	// Calculate how many days the interval contains. Subtract that  
+	// many days from the interval to determine the remainder.  
+	var days = Math.floor(interval / msecPerDay );  
+	interval = interval - (days * msecPerDay );  
+
+	// Calculate the hours, minutes, and seconds.  
+	var hours = Math.floor(interval / msecPerHour );  
+	interval = interval - (hours * msecPerHour );  
+
+	var minutes = Math.floor(interval / msecPerMinute );  
+	interval = interval - (minutes * msecPerMinute );  
+
+	if (minutes < 1) {
+		return "Just now."
+	} else {
+		// Display the result.  
+		return days + " days, " + hours + " hours, " + minutes + " minutes.";
+	}
 }
 
 class Profile extends React.Component {
@@ -96,7 +130,8 @@ class Profile extends React.Component {
 	renderNews(news, i) {
 		if (this.state.posts !== null) {
 			console.log("posts", this.state.posts)
-			const { timeStamp } = news; 
+			const { timeStamp } = news;
+			const timeElapsed = getElapsedTime(timeStamp);
 			switch (news.type) {
 				case "comment": {
 					const { comment, postId, rating } = news.obj;
@@ -111,14 +146,14 @@ class Profile extends React.Component {
 			                            <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style={mediaObjectStyle}/>
 			                        </a>
 			                    </div>
-			                    <h4><a href="#" style={{textDecoration:"none"}}><strong>{this.state.displayName}</strong></a> reviewed { caption } <small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 42 minutes ago</i></a></small></small></h4>
+			                    <h4><a href="#" className="header-bio"><strong>{this.state.displayName}</strong></a> reviewed <Link className="header-bio" to={"/view/" + postId}>{ caption }</Link> <small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> {timeElapsed}</i></a></small></small></h4>
 			                    <hr/>
 			                    <div className="post-content">
 			                        <div className="panel panel-default">
 			                            <div className="panel-body">
-			                                <div className="post-content">
-			                                    <strong>★</strong>
-												{rating}		
+			                                <div className="post-content">	
+			                                    <strong className="header-bio">★ </strong>
+			                                    {rating.toFixed(1)}	
 			                                    <p>{comment}</p>
 			                            	</div>
 			                            </div>
@@ -131,6 +166,7 @@ class Profile extends React.Component {
 				case "addEvent": {
 					const { category, description, location_code, name, time } = news.obj;
 					const caption = this.state.posts[location_code].caption;
+					const displayTime = new Date(time);
 					return (
 						<div className="panel panel-default" key={i}>
 			                <div className="panel-body">
@@ -139,16 +175,16 @@ class Profile extends React.Component {
 			                            <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style={mediaObjectStyle}/>
 			                        </a>
 			                    </div>
-			                    <h4><a href="#" style={{textDecoration:"none"}}><strong>{this.state.displayName}</strong></a> added new event at { caption } <small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 42 minutes ago</i></a></small></small></h4>
+			                    <h4><a href="#" className="header-bio"><strong>{this.state.displayName}</strong></a> added new event at <Link className="header-bio" to={"/view/" + location_code}>{ caption }</Link> <small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> {timeElapsed}</i></a></small></small></h4>
 			                    <hr/>
 			                    <div className="post-content">
 			                        <div className="panel panel-default">
 			                            <div className="panel-body">
 			                                <div className="post-content">
-			                                    <p>{name}</p>
-			                                    <p>{category}</p>		
-			                                    <p>{time}</p>
-			                                    <p>{description}</p>
+			                                    <p><strong>Name: </strong>{name}</p>
+			                                    <p><strong>Category: </strong>{category}</p>		
+			                                    <p><strong>Time: </strong>{displayTime.toString()}</p>
+			                                    <p><strong>Description: </strong>{description}</p>
 			                            	</div>
 			                            </div>
 			                        </div>
@@ -239,229 +275,7 @@ class Profile extends React.Component {
 				            </div>
 				        </div>
 				        <div className="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-				        	{Object.values(userFeed).map(this.renderNews)}
-				            <div className="panel panel-default">
-				                <div className="panel-body">
-				                    <div className="pull-left">
-				                        <a href="#">
-				                            <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style={mediaObjectStyle}/>
-				                        </a>
-				                    </div>
-				                    <h4><a href="#" style={{textDecoration:"none"}}><strong>{displayName}</strong></a> – <small><small><a href="#" style={{textDecoration:"none"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 42 minutes ago</i></a></small></small></h4>
-				                    <span>
-				                        <div className="navbar-right">
-				                            <div className="dropdown">
-				                                <button className="btn btn-link btn-xs dropdown-toggle" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				                                    <i className="fa fa-cog" aria-hidden="true"></i>
-				                                    <span className="caret"></span>
-				                                </button>
-				                                <ul className="dropdown-menu" aria-labelledby="dd1" style={{float: "right"}}>
-				                                    <li><a href="#"><i className="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
-				                                    <li role="separator" className="divider"></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
-				                                </ul>
-				                            </div>
-				                        </div>
-				                    </span>
-				                    <hr/>
-				                    <div className="post-content">
-				                        <p>Simple post content example.</p>
-				                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
-				                    </div>
-				                </div>
-				            </div>
-				            <div className="panel panel-default">
-				                <div className="panel-body">
-				                    <div className="pull-left">
-				                        <a href="#">
-				                            <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style={mediaObjectStyle}/>
-				                        </a>
-				                    </div>
-				                    <h4><a href="#" style={{textDecoration:"none"}}><strong>{displayName}</strong></a> – <small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 42 minutes ago</i></a></small></small></h4>
-				                    <hr/>
-				                    <div className="post-content">
-				                        <div className="panel panel-default">
-				                            <div className="panel-body">
-				                                <div className="post-content">
-				                                    <strong>★</strong>
-													5		
-				                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
-				                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
-				                                </div>
-				                            </div>
-				                        </div>
-				                    </div>
-				                </div>
-				            </div>
-				            <div className="panel panel-default">
-				                <div className="panel-body">
-				                    <div className="pull-left">
-				                        <a href="#">
-				                            <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style={mediaObjectStyle}/>
-				                        </a>
-				                    </div>
-				                    <h4><a href="#" style={{textDecoration:"none"}}><strong>{displayName}</strong></a> – <small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 42 minutes ago</i></a></small></small></h4>
-				                    <span>
-				                        <div className="navbar-right">
-				                            <div className="dropdown">
-				                                <button className="btn btn-link btn-xs dropdown-toggle" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				                                    <i className="fa fa-cog" aria-hidden="true"></i>
-				                                    <span className="caret"></span>
-				                                </button>
-				                                <ul className="dropdown-menu" aria-labelledby="dd1" style={{float: "right"}}>
-				                                    <li><a href="#"><i className="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
-				                                    <li role="separator" className="divider"></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
-				                                </ul>
-				                            </div>
-				                        </div>
-				                    </span>
-				                    <hr/>
-				                    <div className="post-content">
-				                        <p>Sample post content with picture.</p>
-				                        <img className="img-responsive" src="https://media.giphy.com/media/j1QQj6To9Pbxu/giphy.gif"/>
-				                        <p><br/><a href="/tags/christmas" className="tag">#Christmas</a> <a href="/tags/caturday" className="tag">#Caturday</a></p>
-				                    </div>
-				                    <hr/>
-				                    <div>
-				                        <div className="pull-left">
-				                            <p className="text-muted" style={{marginLeft:"5px"}}><i className="fa fa-globe" aria-hidden="true"></i> Public <strong>via mobile</strong></p>
-				                        </div>
-				                        <br/>
-				                    </div>
-				                    <hr/>
-				                    <div className="media">
-				                        <div className="pull-left">
-				                            <a href="#">
-				                                <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="35px" height="35px" style={{marginLeft:"3px", marginRight:"-5px"}}/>
-				                            </a>
-				                        </div>
-				                        <div className="media-body">
-				                            <textarea className="form-control" rows="1" placeholder="Comment"></textarea>
-				                        </div>
-				                    </div>
-				                </div>
-				            </div>
-				            <div className="panel panel-default">
-				                <div className="panel-body">
-				                    <div className="pull-left">
-				                        <a href="#">
-				                            <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="50px" height="50px" style={mediaObjectStyle}/>
-				                        </a>
-				                    </div>
-				                    <h4><a href="#" style={{textDecoration:"none"}}><strong>{displayName}</strong></a> – <small><small><a href="#" style={{textDecoration:"none", color: "grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 42 minutes ago</i></a></small></small></h4>
-				                    <span>
-				                        <div className="navbar-right">
-				                            <div className="dropdown">
-				                                <button className="btn btn-link btn-xs dropdown-toggle" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				                                    <i className="fa fa-cog" aria-hidden="true"></i>
-				                                    <span className="caret"></span>
-				                                </button>
-				                                <ul className="dropdown-menu" aria-labelledby="dd1" style={{float: "right"}}>
-				                                    <li><a href="#"><i className="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> Report</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-ban" aria-hidden="true"></i> Ignore</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-bell" aria-hidden="true"></i> Enable notifications for this post</a></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
-				                                    <li role="separator" className="divider"></li>
-				                                    <li><a href="#"><i className="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
-				                                </ul>
-				                            </div>
-				                        </div>
-				                    </span>
-				                    <hr/>
-				                    <div className="post-content">
-				                        <p>Sample post content with comments.</p>
-				                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
-				                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
-				                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
-				                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. Morbi odio metus, dapibus non nibh id amet.</p>
-				                    </div>
-				                    <hr/>
-				                    <div>
-				                        <div className="pull-left">
-				                            <p className="text-muted" style={{marginLeft:"5px"}}><i className="fa fa-user-secret" aria-hidden="true"></i> Limited</p>
-				                        </div>
-				                        <br/>
-				                    </div>
-				                    <hr/>
-				                    <div>
-				                        <a className="btn btn-default btn-xs"><i className="fa fa-bars" aria-hidden="true"></i> Show 12 more comments</a>
-				                        <hr/>
-				                        <div className="post-content">
-				                            <div className="panel-default">
-				                                <div className="panel-body">
-				                                    <div className="pull-left">
-				                                        <a href="#">
-				                                            <img className="media-object img-circle" src="https://diaspote.org/uploads/images/thumb_large_283df6397c4db3fe0344.png" width="35px" height="35px" style={mediaObjectStyle}/>
-				                                        </a>
-				                                    </div>
-				                                    <h4><a href="#" style={{textDecoration:"none"}}><strong>✪ SтeғOғғιcιel ✪ ツ</strong></a></h4>
-				                                    <hr/>
-				                                    <div className="post-content">
-				                                        Comment example.<br/><br/>
-				                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at arcu sapien. Donec laoreet, nisl quis tempor hendrerit, libero augue blandit turpis, in dignissim odio mauris eu tortor. Ut hendrerit ipsum elit, a elementum nulla ultrices eu. In posuere mollis efficitur. Maecenas justo turpis, tristique sit amet ultricies quis, molestie eget ex. Nam vestibulum consequat tincidunt. Morbi vitae placerat sapien. Phasellus quis mi tincidunt sem scelerisque tincidunt. Ut viverra porttitor sagittis. Phasellus aliquam auctor purus, id sollicitudin mauris pulvinar ac. Vivamus vel erat nec orci ultricies iaculis quis sit amet augue. Vestibulum aliquam felis lorem, interdum porttitor sapien sodales ac. Maecenas id ullamcorper risus. Suspendisse id dui sed urna rutrum pharetra. Nam eu lectus et orci vestibulum bibendum. Mauris et pulvinar dui, ac facilisis leo.
-				                                        <br/><small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 12 minutes ago</i></a></small></small>
-				                                    </div>
-				                                </div>
-				                            </div>
-				                        </div>
-				                        <hr/>
-				                        <div className="post-content">
-				                            <div className="panel-default">
-				                                <div className="panel-body">
-				                                    <div className="pull-left">
-				                                        <a href="#">
-				                                            <img className="media-object img-circle" src="https://lut.im/yR07xwobAA/bZpvdTZmBBTZDJDd.png" width="35px" height="35px" style={mediaObjectStyle}/>
-				                                        </a>
-				                                    </div>
-				                                    <h4><a href="#" style={{textDecoration:"none"}}><strong>Mi Chleen</strong></a></h4>
-				                                    <hr/>
-				                                    <div className="post-content">
-				                                        Another comment.<br/><br/>
-				                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at arcu sapien. Donec laoreet, nisl quis tempor hendrerit, libero augue blandit turpis, in dignissim odio mauris eu tortor. Ut hendrerit ipsum elit, a elementum nulla ultrices eu. In posuere mollis efficitur. Maecenas justo turpis, tristique sit amet ultricies quis, molestie eget ex. Nam vestibulum consequat tincidunt. Morbi vitae placerat sapien. Phasellus quis mi tincidunt sem scelerisque tincidunt. Ut viverra porttitor sagittis. Phasellus aliquam auctor purus, id sollicitudin mauris pulvinar ac. Vivamus vel erat nec orci ultricies iaculis quis sit amet augue. Vestibulum aliquam felis lorem, interdum porttitor sapien sodales ac. Maecenas id ullamcorper risus. Suspendisse id dui sed urna rutrum pharetra. Nam eu lectus et orci vestibulum bibendum. Mauris et pulvinar dui, ac facilisis leo.
-				                                        <br/><small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 9 minutes ago</i></a></small></small>
-				                                    </div>
-				                                </div>
-				                            </div>
-				                        </div>
-				                        <hr/>
-				                        <div className="post-content">
-				                            <div className="panel-default">
-				                                <div className="panel-body">
-				                                    <div className="pull-left">
-				                                        <a href="#">
-				                                            <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="35px" height="35px" style={mediaObjectStyle}/>
-				                                        </a>
-				                                    </div>
-				                                    <h4><a href="#" style={{textDecoration:"none"}}><strong>{displayName}</strong></a></h4>
-				                                    <hr/>
-				                                    <div className="post-content">
-				                                        Yet another post.<br/><br/>
-				                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at arcu sapien. Donec laoreet, nisl quis tempor hendrerit, libero augue blandit turpis, in dignissim odio mauris eu tortor. Ut hendrerit ipsum elit, a elementum nulla ultrices eu. In posuere mollis efficitur. Maecenas justo turpis, tristique sit amet ultricies quis, molestie eget ex. Nam vestibulum consequat tincidunt. Morbi vitae placerat sapien. Phasellus quis mi tincidunt sem scelerisque tincidunt. Ut viverra porttitor sagittis. Phasellus aliquam auctor purus, id sollicitudin mauris pulvinar ac. Vivamus vel erat nec orci ultricies iaculis quis sit amet augue. Vestibulum aliquam felis lorem, interdum porttitor sapien sodales ac. Maecenas id ullamcorper risus. Suspendisse id dui sed urna rutrum pharetra. Nam eu lectus et orci vestibulum bibendum. Mauris et pulvinar dui, ac facilisis leo.
-				                                        <br/><small><small><a href="#" style={{textDecoration:"none", color:"grey"}}><i><i className="fa fa-clock-o" aria-hidden="true"></i> 2 minutes ago</i></a></small></small>
-				                                    </div>
-				                                </div>
-				                            </div>
-				                        </div>
-				                    </div>
-				                    <div className="media">
-				                        <div className="pull-left">
-				                            <a href="#">
-				                                <img className="media-object img-circle" src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" width="35px" height="35px" style={{marginLeft:"3px", marginRight:"-5px"}}/>
-				                            </a>
-				                        </div>
-				                        <div className="media-body">
-				                            <textarea className="form-control" rows="1" placeholder="Comment"></textarea>
-				                        </div>
-				                    </div>
-				                </div>
-				            </div>
+				        	{(_.sortBy(Object.values(userFeed), 'timeStamp')).reverse().map(this.renderNews)}
 				        </div>
 				    </div>
 				</div>

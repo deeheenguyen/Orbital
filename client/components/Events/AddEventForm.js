@@ -23,6 +23,7 @@ class AddEventForm extends React.Component {
     this.handleUploadFile = this.handleUploadFile.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.state = {
+      posts: this.props.posts,
       file: ' ',
       imagePreviewUrl: ' ',
     };
@@ -37,13 +38,21 @@ class AddEventForm extends React.Component {
         });
       }
     });
+    database.ref('/posts').on('value', (snap) => {
+      const updatedPosts = snap.val();
+      this.setState({
+        posts: Object.values(updatedPosts)
+      });
+    });
   }
   createSelectItems() {
     let items = [];
-    const { posts } = this.props
-    posts.forEach(function (post) {
-      items.push(<option key={post.code} value={post.code}>{post.caption}</option>)
-    })
+    const { posts } = this.state
+    if (posts !== undefined) {
+      posts.forEach(function (post) {
+        items.push(<option key={post.code} value={post.code}>{post.caption}</option>)
+      })
+    }
     return items;
   }
   handleSubmit(event) {
