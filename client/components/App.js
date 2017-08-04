@@ -8,7 +8,6 @@ function mapStateToProps(state) {
 		posts: state.posts.posts,
 		comments: state.comments.comments,
 		events: state.events.events,
-		user: state.user
 	}
 }
 

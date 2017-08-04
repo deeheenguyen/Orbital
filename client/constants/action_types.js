@@ -26,14 +26,13 @@ const ActionTypes = {
 	AddFlashMessage: 'ADD_FLASH_MESSAGE',
 	DeleteFlashMessage: 'DELETE_FLASH_MESSAGE',
 
-	LoginAction: 'LOGIN_ACTION',
-	GetUsersRejected: 'GET_USERS_REJECTED',
-	GetUsersRequested: 'GET_USERS_REQUESTED',
-	GetUsersFulfilled:  'GET_USERS_FULFILLED',
+	UpdateUserRequested: 'UPDATE_USER_REQUESTED',
+	UpdateUserRejected: 'UPDATE_USER_REJECTED',
+	UpdateUserFulfilled: 'UPDATE_USER_FULFILLED',
 
-	AddToUsersRequestedAction: 'ADD_TO_USERS_REQUESTED_ACTION',
-  AddToEventsRejected: 'ADD_TO_EVENTS_REJECTED_ACTION',
-	addToUsersFulfilledAction: 'ADD_TO_USERS_FULFILLED_ACTION',
+	AddToNewsFeedRequested: 'ADD_TO_NEWS_FEED_REQUESTED',
+	AddToNewsFeedRejected: 'ADD_TO_NEWS_FEED_REJECTED',
+	AddToNewsFeedFulfilled: 'ADD_TO_NEWS_FEED_FULFILLED'
 }
 
 export default ActionTypes;

@@ -52,6 +52,12 @@ class Events extends React.Component {
         events: updatedEvents
       });
     });
+    database.ref('/posts').on('value', (snap) => {
+      const updatedPosts = snap.val();
+      this.setState({
+        posts: Object.values(updatedPosts)
+      });
+    });
   }
   handleLogin(event) {
     event.preventDefault();
@@ -70,11 +76,13 @@ class Events extends React.Component {
     var offset = new Date().getTimezoneOffset()*60*1000;
     console.log('posts and events', posts, events);
     let locObj = {}
-    posts.forEach(function(post) {
-      locObj[post.code] = post.caption;
-    })
+    if (posts !== undefined) {
+      posts.forEach(function(post) {
+        locObj[post.code] = post.caption;
+      })
+    }
     let eventList = []
-    if (events !== null) {
+    if (events !== undefined) {
       Object.keys(events).forEach(function(id) {
         var _events = events[id]
         Object.values(_events).forEach(function(e) {

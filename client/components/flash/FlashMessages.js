@@ -6,7 +6,8 @@ var flashStyle = {
   position : "absolute",
   bottom : "0",
   height : "40px",
-  marginTop : "40px"
+  marginTop : "40px",
+  zIndex: "1000"
 }
 
 class FlashMessages extends React.Component {

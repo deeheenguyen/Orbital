@@ -9,7 +9,9 @@ import Homepage from './components/Homepage.js';
 import Login from './components/Login/Login.js';
 import Register from './components/Register/Register.js';
 import Events from './components/Events/Events.js';
-import AddEventForm from './components/Events/AddEventForm.js'
+
+import AddEventForm from './components/Events/AddEventForm.js';
+import Profile from './components/Profile/Profile.js';
 import UploadPhoto from './components/Post/UploadPhoto.js';
 import Gallery from './components/Post/Gallery.js';
 
@@ -28,10 +30,16 @@ const router = (
 				<Route path="/register" component={Register}></Route>
 				<Route path="/upload" component={AddEventForm}></Route>
 				<Route path="/events" component={Events}></Route>
+<<<<<<< HEAD
 				</Route>
 			<Route path="/uploadPhoto" component = {UploadPhoto}></Route>
 			<Route path="/gallery" component = {Gallery}></Route>
 
+=======
+				<Route path="/profile" component={Profile}></Route>
+				<Route path="/uploadPhoto" component = {UploadPhoto}></Route>
+			</Route>
+>>>>>>> refs/remotes/origin/master
 		</Router>
 	</Provider>
 )
