@@ -11,6 +11,7 @@ import Register from './components/Register/Register.js';
 import Events from './components/Events/Events.js';
 import AddEventForm from './components/Events/AddEventForm.js'
 import UploadPhoto from './components/Post/UploadPhoto.js';
+import Gallery from './components/Post/Gallery.js';
 
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
@@ -29,6 +30,7 @@ const router = (
 				<Route path="/events" component={Events}></Route>
 				</Route>
 			<Route path="/uploadPhoto" component = {UploadPhoto}></Route>
+			<Route path="/gallery" component = {Gallery}></Route>
 
 		</Router>
 	</Provider>

@@ -12,10 +12,14 @@ class PhotoGrid extends React.Component {
 		this.state=	{
 			keyWords : this.props.location.query.searchKey,
 			listObject: this.props.posts,
-			myPost: this.filterPhoto(this.props.location.query.searchKey, this.props.posts),
+			myPost:this.filterPhoto(this.props.location.query.searchKey, this.props.posts),
 			numResult: 0,
 		}
 		console.log("after:  where is my list");
+	}
+	shouldComponentUpdate(){
+		this.setState({myPost:this.filterPhoto(this.props.location.query.searchKey, this.props.posts)});
+		return true;
 	}
 	/*
 	This part is for the basic search algorithm
@@ -198,6 +202,7 @@ class PhotoGrid extends React.Component {
 		console.log("this is starting of the search algorithm");
 		console.log("this is search key: " + this.state.keyWords);
 		console.log(this.props.posts);
+		var myPost = this.filterPhoto(this.props.location.query.searchKey, this.props.posts);
 		if (this.state.myPost.length === 0) {
 			return (
 				<div>

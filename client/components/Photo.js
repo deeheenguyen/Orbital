@@ -12,8 +12,6 @@ var photoCaptionStyle = {
 class Photo extends React.Component {
 	constructor(props) {
 		super(props);
-		this.handleUpload = this.handleUpload.bind(this);
-		this.viewGallery = this.viewGallery.bind(this);
 		const { post, i, comments } = this.props;
 		const postComments = comments[post.code];
 		if (postComments !== undefined) {
@@ -58,26 +56,6 @@ class Photo extends React.Component {
 			})
   		});
 	}
-
-	handleUpload(event) {
-		event.preventDefault();
-		const { post} = this.props;
-		this.context.router.push(
-			{
-				pathname: '/uploadPhoto',
-				query: {postID: post.code},
-			}
-		);
-	}
-
-	viewGallery(event) {
-		event.preventDefault();
-	}
-	static get contextTypes() {
-		return {
-			router: React.PropTypes.object.isRequired,
-		};
-	}
 	render() {
 		const { post, i, comments } = this.props;
 		const postComments = comments[post.code];
@@ -106,11 +84,11 @@ class Photo extends React.Component {
 								{" " + this.state.num_comments}
 							</span>
 						</Link>
-						<button className="button" onClick = {this.handleUpload}> Upload Some Photo</button>
-						<button className="button" onClick = {this.viewGallery}> View Gallery</button>
 					</div>
 				</figcaption>
 			</figure>
+
+
 		)
 	}
 }

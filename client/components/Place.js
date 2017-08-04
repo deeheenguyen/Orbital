@@ -18,7 +18,9 @@ class Place extends React.Component {
 		super(props);
 		this.state = {
 	      user: null
-	    }
+	    };
+   this.viewGallery = this.viewGallery.bind(this);
+   this.handleUpload = this.handleUpload.bind(this);
 	}
 	componentDidMount() {
 		auth.onAuthStateChanged((user) => {
@@ -31,10 +33,36 @@ class Place extends React.Component {
 			}
 		});
 	}
+
+  handleUpload(event) {
+    const { postId } = this.props.params;
+		event.preventDefault();
+		const { post} = this.props;
+		this.context.router.push(
+			{
+				pathname: '/uploadPhoto',
+				query: {postID: postId},
+			}
+		);
+	}
+
+  viewGallery(event) {
+    event.preventDefault();
+    const { postId } = this.props.params;
+    this.context.router.push({
+      pathname: '/gallery',
+      query: {postID: postId},
+    })
+  }
+  static get contextTypes() {
+    return {
+      router: React.PropTypes.object.isRequired,
+    };
+  }
 	render() {
 		console.log('Props from place', this.props);
 		const { postId } = this.props.params;
-		const i = this.props.posts.findIndex((post) => 
+		const i = this.props.posts.findIndex((post) =>
 			post.code === postId);
 		const post = this.props.posts[i];
 		const postComments = this.props.comments[postId] || [];
@@ -83,6 +111,10 @@ class Place extends React.Component {
 				        </Thead>
 	      			</Table>
 	      		</div>
+            <div>
+    					<button className="button" onClick = {this.handleUpload}> Upload Some Photo</button>
+    					<button className="button" onClick = {this.viewGallery}> View Gallery</button>
+    				</div>
 			</div>
 			);
 	}
