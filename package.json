@@ -17,6 +17,9 @@
     "url": "https://github.com/deeheenguyen/Orbital/issues"
   },
   "homepage": "https://github.com/deeheenguyen/Orbital#readme",
+  "engines": {
+    "node": "6.10.2"
+  },
   "dependencies": {
     "amdefine": "^1.0.1",
     "axios": "^0.12.0",
