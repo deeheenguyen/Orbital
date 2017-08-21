@@ -216,6 +216,9 @@ class Profile extends React.Component {
 			intro = this.state.userInfo.intro;
 			email = this.state.user.email;
 			course = this.state.userInfo.course;
+		} else if (this.state.user !==  null) {
+			email = this.state.user.email;
+			displayName = this.state.user.displayName;
 		}
 		if (this.state.userFeed !== null) {
 			userFeed = this.state.userFeed;
