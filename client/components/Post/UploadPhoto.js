@@ -79,6 +79,9 @@ class UploadPhoto extends React.Component {
 
     return (
       <div className="previewComponent">
+          <div className="text">
+            <h1>Upload photo to gallery</h1>
+          </div>
         <form onSubmit={(e)=>this._handleSubmit(e)}>
           <input className="fileInput"
             type="file"
