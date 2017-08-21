@@ -30,14 +30,10 @@ const router = (
 				<Route path="/register" component={Register}></Route>
 				<Route path="/upload" component={AddEventForm}></Route>
 				<Route path="/events" component={Events}></Route>
-				</Route>
+				<Route path="/profile" component={Profile}></Route>
+			</Route>
 			<Route path="/uploadPhoto" component = {UploadPhoto}></Route>
 			<Route path="/gallery" component = {Gallery}></Route>
-
-
-				<Route path="/profile" component={Profile}></Route>
-				<Route path="/uploadPhoto" component = {UploadPhoto}></Route>
-
 		</Router>
 	</Provider>
 )
